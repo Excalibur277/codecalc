@@ -1,0 +1,13 @@
+Terminator=1
+ASSIGN=2
+OP_ADD=3
+OP_SUB=4
+Number=5
+Identifier=6
+WhiteSpace=7
+CommentMultiLine=8
+CommentSingleLine=9
+';'=1
+'='=2
+'+'=3
+'-'=4
