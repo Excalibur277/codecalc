@@ -119,7 +119,9 @@ arraypanic:
   syscall
 
 routine:
-  mov rax, 3
+  mov rax, 10
+  push rax
+  mov rax, [rbp-16]
   cmp rax,0
   jle arraypanic
   inc rax
@@ -134,8 +136,373 @@ routine:
   syscall
   push rax
   mov rax, 0
-  lea r8, [rbp-16]
+  push rax
+.checkwhile1:
+  mov rax, [rbp-32]
+  push rax
+  mov rax, [rbp-16]
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setl al
+  test rax,rax
+  jz .finishwhile1
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+8]
+  push rax
+  mov rax, [rbp+8]
+  mov r8, [rbp+16]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp+8]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+8], rax
+.continuewhile1:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile1
+.breakwhile1:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile1:
+  mov rax, [rbp-16]
+  cmp rax,0
+  jle arraypanic
+  inc rax
+  imul rax, 8
+  mov rdi, 0
+  mov rsi, rax
+  mov rdx, 3
+  mov r10, 34
+  mov r8, -1
+  mov r9, 0
+  mov rax, 9
+  syscall
+  push rax
+  mov rax, [rbp-16]
+  cmp rax,0
+  jle arraypanic
+  inc rax
+  imul rax, 8
+  mov rdi, 0
+  mov rsi, rax
+  mov rdx, 3
+  mov r10, 34
+  mov r8, -1
+  mov r9, 0
+  mov rax, 9
+  syscall
+  push rax
+  mov rax, 0
+  push rax
+  mov rax, 0
+  push rax
+  mov rax, 0
+  push rax
+  mov rax, 0
+  push rax
+  mov rax, 0
+  push rax
+  mov rax, 0
+  push rax
+  mov rax, 0
+  push rax
+  mov rax, [rbp-16]
+  mov [rbp-56], rax
+.checkwhile2:
+  mov rax, [rbp-56]
+  push rax
+  mov rax, 0
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setg al
+  test rax,rax
+  jz .finishwhile2
+  push rbp
+  mov rbp, rsp
+  mov rax, 0
+  push rax
+.checkwhile3:
+  mov rax, [rbp+56]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setne al
+  test rax,rax
+  jz .finishwhile3
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+72]
+  push rax
+  mov rax, [rbp+72]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  sub rax, r8
+  mov r8, [rbp+80]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp+72]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  sub rax, r8
+  mov [rbp+72], rax
+.continuewhile3:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile3
+.breakwhile3:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile3:
+.checkwhile4:
+  mov rax, [rbp-16]
+  push rax
+  mov rax, [rbp+96]
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setl al
+  test rax,rax
+  jz .finishwhile4
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+8]
+  mov r8, [rbp+104]
   mov rax, [r8+rax*8+8]
+  push rax
+  mov rax, [rbp+8]
+  mov r8, [rbp+88]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp+8]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+8], rax
+.continuewhile4:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile4
+.breakwhile4:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile4:
+  mov rax, 0
+  mov [rbp+8], rax
+  mov rax, 0
+  mov r8, [rbp+72]
+  mov rax, [r8+rax*8+8]
+  mov [rbp+48], rax
+.checkwhile5:
+  mov rax, [rbp+48]
+  push rax
+  mov rax, 0
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setne al
+  test rax,rax
+  jz .finishwhile5
+  push rbp
+  mov rbp, rsp
+  mov rax, 0
+  mov [rbp+8], rax
+.checkwhile6:
+  mov rax, 2
+  push rax
+  mov rax, [rbp+8]
+  mov r8, rax
+  pop rax
+  imul rax, r8
+  push rax
+  mov rax, [rbp+64]
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setl al
+  test rax,rax
+  jz .finishwhile6
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+16]
+  mov r8, [rbp+96]
+  mov rax, [r8+rax*8+8]
+  push rax
+  mov rax, [rbp+72]
+  push rax
+  mov rax, [rbp+16]
+  mov r8, rax
+  pop rax
+  sub rax, r8
+  mov r8, [rbp+96]
+  mov rax, [r8+rax*8+8]
+  push rax
+  mov rax, [rbp+16]
+  mov r8, [rbp+96]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp-16]
+  push rax
+  mov rax, [rbp+72]
+  push rax
+  mov rax, [rbp+16]
+  mov r8, rax
+  pop rax
+  sub rax, r8
+  mov r8, [rbp+96]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp+16]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+16], rax
+.continuewhile6:
+  add rsp, 1*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile6
+.breakwhile6:
+  add rsp, 1*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile6:
+  mov rax, 0
+  mov r8, [rbp+88]
+  mov rax, [r8+rax*8+8]
+  mov [rbp+64], rax
+  mov rax, [rbp+24]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+24], rax
+.continuewhile5:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile5
+.breakwhile5:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile5:
+  mov rax, [rbp+8]
+  push rax
+  mov rax, [rbp+16]
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setg al
+  test rax,rax
+  jz .else7
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+24]
+  mov [rbp+32], rax
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .endif7
+.else7:
+.endif7:
+  mov rax, [rbp+24]
+  push rax
+  mov rax, 2
+  mov r8, rax
+  pop rax
+  test r8,r8
+  jz panic
+  xor rdx, rdx
+  idiv qword r8
+  mov rax, rdx
+  push rax
+  mov rax, 0
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  sete al
+  test rax,rax
+  jz .else8
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+48]
+  push rax
+  mov rax, [rbp+24]
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+48], rax
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .endif8
+.else8:
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+48]
+  push rax
+  mov rax, [rbp+24]
+  mov r8, rax
+  pop rax
+  sub rax, r8
+  mov [rbp+48], rax
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+.endif8:
+  mov rax, 1
+  push rax
+.checkwhile9:
+  mov rax, [rbp-24]
+  test rax,rax
+  jz .finishwhile9
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+80]
+  push rax
+  mov rax, [rbp+120]
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  sete al
+  test rax,rax
+  jz .else10
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+64]
   ; Setup Call Stack Frame
   push rbp
   mov rbp, rsp
@@ -148,5 +515,173 @@ routine:
   ; Reset Stack Frame
   mov rsp, rbp
   pop rbp
+  mov rax, 0
+  mov [rbp+88], rax
+  jmp .breakwhile9
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .endif10
+.else10:
+.endif10:
+  mov rax, 0
+  mov r8, [rbp+112]
+  mov rax, [r8+rax*8+8]
+  push rax
+  mov rax, 0
+  mov [rbp+16], rax
+.checkwhile11:
+  mov rax, [rbp+16]
+  push rax
+  mov rax, [rbp+80]
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setl al
+  test rax,rax
+  jz .finishwhile11
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+32]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+80], rax
+  mov rax, [rbp+80]
+  mov r8, [rbp+128]
+  mov rax, [r8+rax*8+8]
+  push rax
+  mov rax, [rbp+32]
+  mov r8, [rbp+128]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp+80]
+  mov [rbp+32], rax
+.continuewhile11:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile11
+.breakwhile11:
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile11:
+  mov rax, [rbp-16]
+  push rax
+  mov rax, [rbp+80]
+  mov r8, [rbp+112]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp+80]
+  mov r8, [rbp+88]
+  mov rax, [r8+rax*8+8]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  sub rax, r8
+  push rax
+  mov rax, [rbp+80]
+  mov r8, [rbp+88]
+  pop r9
+  mov [r8+rax*8+8], r9
+  mov rax, [rbp+80]
+  mov r8, [rbp+88]
+  mov rax, [r8+rax*8+8]
+  push rax
+  mov rax, 0
+  mov r8, rax
+  pop r9
+  xor rax, rax
+  cmp r9, r8
+  setg al
+  test rax,rax
+  jz .else12
+  push rbp
+  mov rbp, rsp
+  mov rax, 99
+  ; Setup Call Stack Frame
+  push rbp
+  mov rbp, rsp
+  
+  ; Call Function
+  push rax
+  call printInt
   add rsp, 8
+  
+  ; Reset Stack Frame
+  mov rsp, rbp
+  pop rbp
+  mov rax, 0
+  mov [rbp+24], rax
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+  jmp .endif12
+.else12:
+  push rbp
+  mov rbp, rsp
+  mov rax, [rbp+96]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+96], rax
+  add rsp, 0*8
+  mov rsp, rbp
+  pop rbp
+.endif12:
+.continuewhile9:
+  add rsp, 1*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile9
+.breakwhile9:
+  add rsp, 1*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile9:
+  mov rax, [rbp+24]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  add rax, r8
+  mov [rbp+24], rax
+  mov rax, [rbp+56]
+  push rax
+  mov rax, 1
+  mov r8, rax
+  pop rax
+  sub rax, r8
+  mov [rbp+56], rax
+.continuewhile2:
+  add rsp, 2*8
+  mov rsp, rbp
+  pop rbp
+  jmp .checkwhile2
+.breakwhile2:
+  add rsp, 2*8
+  mov rsp, rbp
+  pop rbp
+.finishwhile2:
+  mov rax, [rbp-96]
+  ; Setup Call Stack Frame
+  push rbp
+  mov rbp, rsp
+  
+  ; Call Function
+  push rax
+  call printInt
+  add rsp, 8
+  
+  ; Reset Stack Frame
+  mov rsp, rbp
+  pop rbp
+  add rsp, 96
   ret

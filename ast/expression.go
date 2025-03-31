@@ -97,7 +97,7 @@ func (e *AccessExpression) Generate(ctx *context) string {
 	}
 	fasm := e.expression.Generate(ctx)
 	// TODO bounds checking
-	fasm += "  lea r8, [" + addr + "]\n"
+	fasm += "  mov r8, [" + addr + "]\n"
 	fasm += "  mov rax, [r8+rax*8+8]\n"
 	return fasm
 }

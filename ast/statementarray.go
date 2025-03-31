@@ -77,7 +77,7 @@ func (s *AssignIndexStatement) Generate(ctx *context) string {
 	fasm := s.valueExpression.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += s.indexExpression.Generate(ctx)
-	fasm += "  lea r8, [" + addr + "]\n"
+	fasm += "  mov r8, [" + addr + "]\n"
 	fasm += "  pop r9\n"
 	fasm += "  mov [r8+rax*8+8], r9\n"
 	return fasm

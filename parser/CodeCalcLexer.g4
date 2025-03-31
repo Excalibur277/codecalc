@@ -44,5 +44,5 @@ Identifier : [\p{L}_] [\p{L}\p{N}_]*;
 // Parse out
 WhiteSpace: [\p{White_Space}]+ -> channel(HIDDEN);
 
-CommentMultiLine  : '`' .*? '`'                   -> channel(HIDDEN);
-CommentSingleLine : '#' (~['"\r\n\\])* '\r'? '\n' -> channel(HIDDEN);
+CommentMultiLine  : '`' .*? '`'                             -> channel(HIDDEN);
+CommentSingleLine : '#' (~['"\r\n\\])* (('\r'? '\n') | EOF) -> channel(HIDDEN);
