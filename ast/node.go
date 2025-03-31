@@ -138,6 +138,10 @@ panic_msg db 'Panic! Attempting to divide or mod by 0, exiting early.',0xA
 panic_msg_size = $-panic_msg
 arraypanic_msg db 'Panic! Attempting to initilize array with size less than or equal to 0, exiting early.',0xA
 arraypanic_msg_size = $-arraypanic_msg
+boundspanic_msg db 'Panic! Attempting to index out of the bounds of an array.',0xA
+boundspanic_msg_size = $-boundspanic_msg
+negindexpanic_msg db 'Panic! Attempting to index with negative number.',0xA
+negindexpanic_msg_size = $-negindexpanic_msg
 
 segment readable executable
 
@@ -232,6 +236,28 @@ panic:
 arraypanic:
   mov rdx, arraypanic_msg_size
   lea rsi, [arraypanic_msg]
+  mov rdi, 2 ; STDERR
+  mov rax, 1 ; sys_write
+  syscall
+
+  mov rax, 60 ; exit
+  mov rdi, 0  ; error 
+  syscall
+
+negindexpanic:
+  mov rdx, negindexpanic_msg_size
+  lea rsi, [negindexpanic_msg]
+  mov rdi, 2 ; STDERR
+  mov rax, 1 ; sys_write
+  syscall
+
+  mov rax, 60 ; exit
+  mov rdi, 0  ; error 
+  syscall
+
+boundspanic:
+  mov rdx, boundspanic_msg_size
+  lea rsi, [boundspanic_msg]
   mov rdi, 2 ; STDERR
   mov rax, 1 ; sys_write
   syscall

@@ -96,8 +96,17 @@ func (e *AccessExpression) Generate(ctx *context) string {
 		panic(fmt.Sprintf("Variable %s is not an array and cannot be indexed", e.identifier))
 	}
 	fasm := e.expression.Generate(ctx)
-	// TODO bounds checking
+
 	fasm += "  mov r8, [" + addr + "]\n"
+
+	// Check arround bounds
+	fasm += "  cmp rax,0\n"
+	fasm += "  jl negindexpanic\n"
+	fasm += "  mov r10,[r8]\n"
+	fasm += "  dec r10\n"
+	fasm += "  cmp rax,r10\n"
+	fasm += "  jg boundspanic\n"
+
 	fasm += "  mov rax, [r8+rax*8+8]\n"
 	return fasm
 }
