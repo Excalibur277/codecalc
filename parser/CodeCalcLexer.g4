@@ -23,6 +23,9 @@ OP_LTE : '<=';
 OP_EQU : '==';
 OP_NEQ : '!=';
 
+OP_OR  : '|';
+OP_AND : '&';
+
 Number     : [0-9][0-9]*;
 Identifier : [\p{L}_] [\p{L}\p{N}_]*;
 

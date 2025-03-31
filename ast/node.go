@@ -144,6 +144,10 @@ exit:
   xor ebx,ebx
   int 0x80
 
+panic:
+  mov eax,1
+  mov ebx,1
+  int 0x80
 
 routine:
 `
@@ -192,7 +196,6 @@ func (s *AssignStatement) Generate(ctx *context) string {
 	if !ok {
 		ctx.stackOffset++
 		ctx.variables[s.identifier] = ctx.stackOffset
-		fmt.Println("Assigning")
 		fasm += "  push rax\n"
 	} else {
 		fasm += "  mov [rbp-" + strconv.FormatInt((index+1)*8, 10) + "], rax\n"
@@ -331,6 +334,12 @@ type EQUExpression struct {
 type NEQExpression struct {
 	BaseBinaryExpression
 }
+type AndExpression struct {
+	BaseBinaryExpression
+}
+type OrExpression struct {
+	BaseBinaryExpression
+}
 
 func NewBinaryExpression(lhs Expression, operator antlr.Token, rhs Expression) Expression {
 	switch op := operator.GetText(); op {
@@ -354,6 +363,10 @@ func NewBinaryExpression(lhs Expression, operator antlr.Token, rhs Expression) E
 		return &EQUExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
 	case "!=":
 		return &NEQExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
+	case "&":
+		return &AndExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
+	case "|":
+		return &OrExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
 	default:
 		panic(fmt.Sprintf("Unknown operator: %s", op))
 	}
@@ -411,7 +424,8 @@ func (e *DivExpression) Generate(ctx *context) string {
 	fasm += "  push rax\n"
 	fasm += "  pop r8\n"
 	fasm += "  pop rax\n"
-	// TODO fully implement
+	fasm += "  test r8,r8\n"
+	fasm += "  jz panic\n"
 	fasm += "  xor rdx, rdx\n"
 	fasm += "  idiv qword r8\n"
 	return fasm
@@ -523,6 +537,58 @@ func (s *NEQExpression) String() string {
 	return fmt.Sprintf("%s != %s", s.lhs, s.rhs)
 }
 
+func (e *AndExpression) Generate(ctx *context) string {
+	fasm := e.lhs.Generate(ctx)
+	fasm += "  push rax\n"
+	fasm += e.rhs.Generate(ctx)
+	fasm += "  push rax\n"
+	fasm += "  pop r8\n"
+	fasm += "  pop r9\n"
+	fasm += "  xor rax, rax\n"
+	fasm += "  xor rbx, rbx\n"
+	fasm += "  test r8,r8\n"
+	fasm += "  setnz al\n"
+	fasm += "  test r9,r9\n"
+	fasm += "  setnz bl\n"
+	fasm += "  and rax, rbx\n"
+	return fasm
+}
+
+func (s *AndExpression) String() string {
+	return fmt.Sprintf("%s & %s", s.lhs, s.rhs)
+}
+
+func (e *OrExpression) Generate(ctx *context) string {
+	fasm := e.lhs.Generate(ctx)
+	fasm += "  push rax\n"
+	fasm += e.rhs.Generate(ctx)
+	fasm += "  push rax\n"
+	fasm += "  pop r8\n"
+	fasm += "  pop r9\n"
+	fasm += "  or r8, r9\n"
+	fasm += "  xor rax, rax\n"
+	fasm += "  test r8,r8\n"
+	fasm += "  setnz al\n"
+	return fasm
+}
+
+func (s *OrExpression) String() string {
+	return fmt.Sprintf("%s | %s", s.lhs, s.rhs)
+}
+
+type BracketExpression struct {
+	BaseExpression
+	expression Expression
+}
+
+func (e *BracketExpression) Generate(ctx *context) string {
+	return e.expression.Generate(ctx)
+}
+
+func (s *BracketExpression) String() string {
+	return fmt.Sprintf("(%s)", s.expression)
+}
+
 type PosExpression struct {
 	BaseExpression
 	expression Expression
@@ -571,6 +637,8 @@ func (e *NotExpression) Generate(ctx *context) string {
 
 func NewUnaryExpression(operator antlr.Token, expression Expression) Expression {
 	switch op := operator.GetText(); op {
+	case "(":
+		return &BracketExpression{expression: expression}
 	case "+":
 		return &PosExpression{expression: expression}
 	case "-":

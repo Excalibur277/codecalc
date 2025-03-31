@@ -18,8 +18,8 @@ public class CodeCalcParser extends Parser {
 	public static final int
 		Terminator=1, L_BRACE=2, R_BRACE=3, ASSIGN=4, OP_ADD=5, OP_SUB=6, OP_MUL=7, 
 		OP_DIV=8, OP_NOT=9, OP_GRT=10, OP_LST=11, OP_GTE=12, OP_LTE=13, OP_EQU=14, 
-		OP_NEQ=15, Number=16, Identifier=17, WhiteSpace=18, CommentMultiLine=19, 
-		CommentSingleLine=20;
+		OP_NEQ=15, OP_OR=16, OP_AND=17, Number=18, Identifier=19, WhiteSpace=20, 
+		CommentMultiLine=21, CommentSingleLine=22;
 	public static final int
 		RULE_module = 0, RULE_statements = 1, RULE_statement = 2, RULE_expression = 3;
 	private static String[] makeRuleNames() {
@@ -32,7 +32,7 @@ public class CodeCalcParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "';'", "'('", "')'", "'='", "'+'", "'-'", "'*'", "'/'", "'!'", 
-			"'>'", "'<'", "'>='", "'<='", "'=='", "'!='"
+			"'>'", "'<'", "'>='", "'<='", "'=='", "'!='", "'|'", "'&'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -40,8 +40,8 @@ public class CodeCalcParser extends Parser {
 		return new String[] {
 			null, "Terminator", "L_BRACE", "R_BRACE", "ASSIGN", "OP_ADD", "OP_SUB", 
 			"OP_MUL", "OP_DIV", "OP_NOT", "OP_GRT", "OP_LST", "OP_GTE", "OP_LTE", 
-			"OP_EQU", "OP_NEQ", "Number", "Identifier", "WhiteSpace", "CommentMultiLine", 
-			"CommentSingleLine"
+			"OP_EQU", "OP_NEQ", "OP_OR", "OP_AND", "Number", "Identifier", "WhiteSpace", 
+			"CommentMultiLine", "CommentSingleLine"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -308,16 +308,16 @@ public class CodeCalcParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode OP_EQU() { return getToken(CodeCalcParser.OP_EQU, 0); }
-		public TerminalNode OP_NEQ() { return getToken(CodeCalcParser.OP_NEQ, 0); }
-		public TerminalNode OP_GRT() { return getToken(CodeCalcParser.OP_GRT, 0); }
-		public TerminalNode OP_LST() { return getToken(CodeCalcParser.OP_LST, 0); }
-		public TerminalNode OP_GTE() { return getToken(CodeCalcParser.OP_GTE, 0); }
-		public TerminalNode OP_LTE() { return getToken(CodeCalcParser.OP_LTE, 0); }
 		public TerminalNode OP_MUL() { return getToken(CodeCalcParser.OP_MUL, 0); }
 		public TerminalNode OP_DIV() { return getToken(CodeCalcParser.OP_DIV, 0); }
 		public TerminalNode OP_ADD() { return getToken(CodeCalcParser.OP_ADD, 0); }
 		public TerminalNode OP_SUB() { return getToken(CodeCalcParser.OP_SUB, 0); }
+		public TerminalNode OP_GRT() { return getToken(CodeCalcParser.OP_GRT, 0); }
+		public TerminalNode OP_LST() { return getToken(CodeCalcParser.OP_LST, 0); }
+		public TerminalNode OP_GTE() { return getToken(CodeCalcParser.OP_GTE, 0); }
+		public TerminalNode OP_LTE() { return getToken(CodeCalcParser.OP_LTE, 0); }
+		public TerminalNode OP_AND() { return getToken(CodeCalcParser.OP_AND, 0); }
+		public TerminalNode OP_OR() { return getToken(CodeCalcParser.OP_OR, 0); }
 		public BinaryExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
 	@SuppressWarnings("CheckReturnValue")
@@ -332,19 +332,12 @@ public class CodeCalcParser extends Parser {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
+		public TerminalNode R_BRACE() { return getToken(CodeCalcParser.R_BRACE, 0); }
+		public TerminalNode L_BRACE() { return getToken(CodeCalcParser.L_BRACE, 0); }
 		public TerminalNode OP_NOT() { return getToken(CodeCalcParser.OP_NOT, 0); }
 		public TerminalNode OP_ADD() { return getToken(CodeCalcParser.OP_ADD, 0); }
 		public TerminalNode OP_SUB() { return getToken(CodeCalcParser.OP_SUB, 0); }
 		public UnaryExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class BraceExpressionContext extends ExpressionContext {
-		public TerminalNode L_BRACE() { return getToken(CodeCalcParser.L_BRACE, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode R_BRACE() { return getToken(CodeCalcParser.R_BRACE, 0); }
-		public BraceExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IdentifierExpressionContext extends ExpressionContext {
@@ -374,12 +367,12 @@ public class CodeCalcParser extends Parser {
 			switch (_input.LA(1)) {
 			case L_BRACE:
 				{
-				_localctx = new BraceExpressionContext(_localctx);
+				_localctx = new UnaryExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
 				setState(29);
-				match(L_BRACE);
+				((UnaryExpressionContext)_localctx).op = match(L_BRACE);
 				setState(30);
 				expression(0);
 				setState(31);
@@ -450,7 +443,7 @@ public class CodeCalcParser extends Parser {
 						setState(40);
 						((BinaryExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==OP_EQU || _la==OP_NEQ) ) {
+						if ( !(_la==OP_MUL || _la==OP_DIV) ) {
 							((BinaryExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -471,7 +464,7 @@ public class CodeCalcParser extends Parser {
 						setState(43);
 						((BinaryExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 15360L) != 0)) ) {
+						if ( !(_la==OP_ADD || _la==OP_SUB) ) {
 							((BinaryExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -492,7 +485,7 @@ public class CodeCalcParser extends Parser {
 						setState(46);
 						((BinaryExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==OP_MUL || _la==OP_DIV) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 15360L) != 0)) ) {
 							((BinaryExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -513,7 +506,7 @@ public class CodeCalcParser extends Parser {
 						setState(49);
 						((BinaryExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==OP_ADD || _la==OP_SUB) ) {
+						if ( !(_la==OP_OR || _la==OP_AND) ) {
 							((BinaryExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -576,7 +569,7 @@ public class CodeCalcParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u00149\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u00169\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0001\u0000\u0001\u0000\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0005\u0001\u000e\b\u0001\n\u0001\f\u0001"+
 		"\u0011\t\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
@@ -587,7 +580,7 @@ public class CodeCalcParser extends Parser {
 		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0005\u00034\b\u0003"+
 		"\n\u0003\f\u00037\t\u0003\u0001\u0003\u0000\u0002\u0002\u0006\u0004\u0000"+
 		"\u0002\u0004\u0006\u0000\u0005\u0002\u0000\u0005\u0006\t\t\u0001\u0000"+
-		"\u000e\u000f\u0001\u0000\n\r\u0001\u0000\u0007\b\u0001\u0000\u0005\u0006"+
+		"\u0007\b\u0001\u0000\u0005\u0006\u0001\u0000\n\r\u0001\u0000\u0010\u0011"+
 		"=\u0000\b\u0001\u0000\u0000\u0000\u0002\n\u0001\u0000\u0000\u0000\u0004"+
 		"\u001a\u0001\u0000\u0000\u0000\u0006%\u0001\u0000\u0000\u0000\b\t\u0003"+
 		"\u0002\u0001\u0000\t\u0001\u0001\u0000\u0000\u0000\n\u000f\u0006\u0001"+
@@ -595,15 +588,15 @@ public class CodeCalcParser extends Parser {
 		"\u0000\r\u000b\u0001\u0000\u0000\u0000\u000e\u0011\u0001\u0000\u0000\u0000"+
 		"\u000f\r\u0001\u0000\u0000\u0000\u000f\u0010\u0001\u0000\u0000\u0000\u0010"+
 		"\u0003\u0001\u0000\u0000\u0000\u0011\u000f\u0001\u0000\u0000\u0000\u0012"+
-		"\u0013\u0005\u0011\u0000\u0000\u0013\u0014\u0005\u0004\u0000\u0000\u0014"+
+		"\u0013\u0005\u0013\u0000\u0000\u0013\u0014\u0005\u0004\u0000\u0000\u0014"+
 		"\u0015\u0003\u0006\u0003\u0000\u0015\u0016\u0005\u0001\u0000\u0000\u0016"+
 		"\u001b\u0001\u0000\u0000\u0000\u0017\u0018\u0003\u0006\u0003\u0000\u0018"+
 		"\u0019\u0005\u0001\u0000\u0000\u0019\u001b\u0001\u0000\u0000\u0000\u001a"+
 		"\u0012\u0001\u0000\u0000\u0000\u001a\u0017\u0001\u0000\u0000\u0000\u001b"+
 		"\u0005\u0001\u0000\u0000\u0000\u001c\u001d\u0006\u0003\uffff\uffff\u0000"+
 		"\u001d\u001e\u0005\u0002\u0000\u0000\u001e\u001f\u0003\u0006\u0003\u0000"+
-		"\u001f \u0005\u0003\u0000\u0000 &\u0001\u0000\u0000\u0000!&\u0005\u0010"+
-		"\u0000\u0000\"&\u0005\u0011\u0000\u0000#$\u0007\u0000\u0000\u0000$&\u0003"+
+		"\u001f \u0005\u0003\u0000\u0000 &\u0001\u0000\u0000\u0000!&\u0005\u0012"+
+		"\u0000\u0000\"&\u0005\u0013\u0000\u0000#$\u0007\u0000\u0000\u0000$&\u0003"+
 		"\u0006\u0003\u0005%\u001c\u0001\u0000\u0000\u0000%!\u0001\u0000\u0000"+
 		"\u0000%\"\u0001\u0000\u0000\u0000%#\u0001\u0000\u0000\u0000&5\u0001\u0000"+
 		"\u0000\u0000\'(\n\u0004\u0000\u0000()\u0007\u0001\u0000\u0000)4\u0003"+

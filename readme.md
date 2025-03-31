@@ -1,6 +1,6 @@
 # Code Calc
 
-CodeCalc is a simple signed 64-bit integer based language for x86-64 targets. It ignores whitespace and terminates lines with semi-colons (;).
+CodeCalc is a simple signed 64-bit integer based language for linux x86-64 targets. It ignores whitespace and terminates lines with semi-colons (;).
 
 ## Comments
 
@@ -24,7 +24,7 @@ Binary: &,|
 
 Binary operators require a value on either side, while unary operators precede a single value.
 
-Comparision operators evaluate to 0 if false and 1 if true. Division by zero causes the execution to fail.
+Comparision operators evaluate to 0 if false and 1 if true. Division by zero causes the execution to fail, returning exit code 1.
 & evaluates to 0 if either the value are 0 and 1 otherwise.
 | evaluates to 0 if both the value are 0 and 1 otherwise.
 Not evaluates to 1 if the value is 0 and 0 otherwise.

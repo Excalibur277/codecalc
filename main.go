@@ -12,6 +12,8 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
+var DEBUG = false
+
 func main() {
 	_, filename, _, ok := runtime.Caller(0)
 	directory := path.Dir(filename)
@@ -34,7 +36,9 @@ func main() {
 	is := antlr.NewIoStream(bufio.NewReader(f))
 
 	module := listener.ParseStream(is)
-	fmt.Println(module.String())
+	if DEBUG {
+		fmt.Println(module.String())
+	}
 	err = os.WriteFile(os.Args[2]+".asm", []byte(module.Generate()), 0777)
 	if err != nil {
 		fmt.Println(err)
@@ -43,7 +47,9 @@ func main() {
 
 	cmd := exec.Command(directory+"/fasm/fasm", os.Args[2]+".asm", os.Args[2])
 	stdout, err := cmd.Output()
-	fmt.Println(string(stdout))
+	if DEBUG {
+		fmt.Println(string(stdout))
+	}
 	if err != nil {
 		fmt.Println("Error Building Binary")
 		fmt.Println(err)

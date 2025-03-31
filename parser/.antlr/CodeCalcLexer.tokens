@@ -13,11 +13,13 @@ OP_GTE=12
 OP_LTE=13
 OP_EQU=14
 OP_NEQ=15
-Number=16
-Identifier=17
-WhiteSpace=18
-CommentMultiLine=19
-CommentSingleLine=20
+OP_OR=16
+OP_AND=17
+Number=18
+Identifier=19
+WhiteSpace=20
+CommentMultiLine=21
+CommentSingleLine=22
 ';'=1
 '('=2
 ')'=3
@@ -33,3 +35,5 @@ CommentSingleLine=20
 '<='=13
 '=='=14
 '!='=15
+'|'=16
+'&'=17
