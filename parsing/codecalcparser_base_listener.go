@@ -62,11 +62,29 @@ func (s *BaseCodeCalcParserListener) EnterAssignStatement(ctx *AssignStatementCo
 // ExitAssignStatement is called when production AssignStatement is exited.
 func (s *BaseCodeCalcParserListener) ExitAssignStatement(ctx *AssignStatementContext) {}
 
+// EnterAssignIndexStatement is called when production AssignIndexStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterAssignIndexStatement(ctx *AssignIndexStatementContext) {}
+
+// ExitAssignIndexStatement is called when production AssignIndexStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitAssignIndexStatement(ctx *AssignIndexStatementContext) {}
+
+// EnterArrayStatement is called when production ArrayStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterArrayStatement(ctx *ArrayStatementContext) {}
+
+// ExitArrayStatement is called when production ArrayStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitArrayStatement(ctx *ArrayStatementContext) {}
+
 // EnterExpressionStatement is called when production ExpressionStatement is entered.
 func (s *BaseCodeCalcParserListener) EnterExpressionStatement(ctx *ExpressionStatementContext) {}
 
 // ExitExpressionStatement is called when production ExpressionStatement is exited.
 func (s *BaseCodeCalcParserListener) ExitExpressionStatement(ctx *ExpressionStatementContext) {}
+
+// EnterBlankStatement is called when production BlankStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterBlankStatement(ctx *BlankStatementContext) {}
+
+// ExitBlankStatement is called when production BlankStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitBlankStatement(ctx *BlankStatementContext) {}
 
 // EnterWhileStatement is called when production WhileStatement is entered.
 func (s *BaseCodeCalcParserListener) EnterWhileStatement(ctx *WhileStatementContext) {}
@@ -109,6 +127,12 @@ func (s *BaseCodeCalcParserListener) EnterUnaryExpression(ctx *UnaryExpressionCo
 
 // ExitUnaryExpression is called when production UnaryExpression is exited.
 func (s *BaseCodeCalcParserListener) ExitUnaryExpression(ctx *UnaryExpressionContext) {}
+
+// EnterAccessExpression is called when production AccessExpression is entered.
+func (s *BaseCodeCalcParserListener) EnterAccessExpression(ctx *AccessExpressionContext) {}
+
+// ExitAccessExpression is called when production AccessExpression is exited.
+func (s *BaseCodeCalcParserListener) ExitAccessExpression(ctx *AccessExpressionContext) {}
 
 // EnterIdentifierExpression is called when production IdentifierExpression is entered.
 func (s *BaseCodeCalcParserListener) EnterIdentifierExpression(ctx *IdentifierExpressionContext) {}

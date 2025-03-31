@@ -36,9 +36,14 @@ func (s *AssignStatement) String() string {
 
 func (s *AssignStatement) Generate(ctx *context) string {
 	fasm := s.expression.Generate(ctx)
-	addr, ok := ctx.getVar(s.identifier)
+	addr, dataType, ok := ctx.getVar(s.identifier)
+
+	if dataType == Array {
+		panic(fmt.Sprintf("Variable %s must be assigned through indexing, not directly", s.identifier))
+	}
+
 	if !ok {
-		ctx.addVar(s.identifier)
+		ctx.addVar(s.identifier, Integer)
 		fasm += "  push rax\n"
 	} else {
 		fasm += "  mov [" + addr + "], rax\n"

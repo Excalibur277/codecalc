@@ -65,6 +65,16 @@ func (l *CodeCalcListener) ExitExpressionStatement(c *parsing.ExpressionStatemen
 	Push(l, ast.NewExpressionStatement(Dequeue[ast.Expression](l)))
 }
 
+func (l *CodeCalcListener) ExitArrayStatement(c *parsing.ArrayStatementContext) {
+	l.Pop(1)
+	Push(l, ast.NewArrayStatement(c.GetIdentifier(), Dequeue[ast.Expression](l)))
+}
+
+func (l *CodeCalcListener) ExitAssignIndexStatement(c *parsing.AssignIndexStatementContext) {
+	l.Pop(2)
+	Push(l, ast.NewAssignIndexStatement(c.GetIdentifier(), Dequeue[ast.Expression](l), Dequeue[ast.Expression](l)))
+}
+
 func (l *CodeCalcListener) ExitBreakStatement(c *parsing.BreakStatementContext) {
 	Push(l, ast.NewBreakStatement())
 }
@@ -109,6 +119,11 @@ func (l *CodeCalcListener) ExitLiteralExpression(c *parsing.LiteralExpressionCon
 
 func (l *CodeCalcListener) ExitIdentifierExpression(c *parsing.IdentifierExpressionContext) {
 	Push(l, ast.NewIdentifierExpression(c.GetIdentifier()))
+}
+
+func (l *CodeCalcListener) ExitAccessExpression(c *parsing.AccessExpressionContext) {
+	l.Pop(1)
+	Push(l, ast.NewAccessExpression(c.GetIdentifier(), Dequeue[ast.Expression](l)))
 }
 
 func (l *CodeCalcListener) ExitEveryRule(c antlr.ParserRuleContext) {

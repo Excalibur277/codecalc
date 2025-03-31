@@ -32,16 +32,17 @@ var CodeCalcParserParserStaticData struct {
 func codecalcparserParserInit() {
 	staticData := &CodeCalcParserParserStaticData
 	staticData.LiteralNames = []string{
-		"", "';'", "'('", "')'", "'{'", "'}'", "'='", "'+'", "'-'", "'*'", "'/'",
-		"'!'", "'>'", "'<'", "'>='", "'<='", "'=='", "'!='", "'|'", "'&'", "'if'",
-		"'else'", "'while'", "'continue'", "'break'",
+		"", "';'", "'('", "')'", "'{'", "'}'", "'['", "']'", "'='", "'+'", "'-'",
+		"'*'", "'/'", "'%'", "'!'", "'>'", "'<'", "'>='", "'<='", "'=='", "'!='",
+		"'|'", "'&'", "'if'", "'else'", "'while'", "'continue'", "'break'",
+		"'array'",
 	}
 	staticData.SymbolicNames = []string{
-		"", "Terminator", "L_BRACE", "R_BRACE", "L_C_BRACE", "R_C_BRACE", "ASSIGN",
-		"OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_NOT", "OP_GRT", "OP_LST",
-		"OP_GTE", "OP_LTE", "OP_EQU", "OP_NEQ", "OP_OR", "OP_AND", "IF", "ELSE",
-		"WHILE", "CONTINUE", "BREAK", "Number", "Identifier", "WhiteSpace",
-		"CommentMultiLine", "CommentSingleLine",
+		"", "Terminator", "L_BRACE", "R_BRACE", "L_C_BRACE", "R_C_BRACE", "L_S_BRACE",
+		"R_S_BRACE", "ASSIGN", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV", "OP_MOD",
+		"OP_NOT", "OP_GRT", "OP_LST", "OP_GTE", "OP_LTE", "OP_EQU", "OP_NEQ",
+		"OP_OR", "OP_AND", "IF", "ELSE", "WHILE", "CONTINUE", "BREAK", "ARRAY",
+		"Number", "Identifier", "WhiteSpace", "CommentMultiLine", "CommentSingleLine",
 	}
 	staticData.RuleNames = []string{
 		"module", "statements", "statement", "while_statement", "if_statement",
@@ -49,47 +50,59 @@ func codecalcparserParserInit() {
 	}
 	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 29, 99, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 33, 123, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 5, 1, 18, 8, 1, 10, 1, 12,
 		1, 21, 9, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
-		1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 37, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1,
-		3, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
+		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 53, 8, 2, 1, 3, 1,
+		3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
 		4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
-		4, 3, 4, 69, 8, 4, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5,
-		3, 5, 80, 8, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1,
-		5, 1, 5, 1, 5, 5, 5, 94, 8, 5, 10, 5, 12, 5, 97, 9, 5, 1, 5, 0, 2, 2, 10,
-		6, 0, 2, 4, 6, 8, 10, 0, 5, 2, 0, 7, 8, 11, 11, 1, 0, 9, 10, 1, 0, 7, 8,
-		1, 0, 12, 15, 1, 0, 18, 19, 107, 0, 12, 1, 0, 0, 0, 2, 14, 1, 0, 0, 0,
-		4, 36, 1, 0, 0, 0, 6, 38, 1, 0, 0, 0, 8, 68, 1, 0, 0, 0, 10, 79, 1, 0,
-		0, 0, 12, 13, 3, 2, 1, 0, 13, 1, 1, 0, 0, 0, 14, 19, 6, 1, -1, 0, 15, 16,
-		10, 1, 0, 0, 16, 18, 3, 4, 2, 0, 17, 15, 1, 0, 0, 0, 18, 21, 1, 0, 0, 0,
-		19, 17, 1, 0, 0, 0, 19, 20, 1, 0, 0, 0, 20, 3, 1, 0, 0, 0, 21, 19, 1, 0,
-		0, 0, 22, 37, 3, 6, 3, 0, 23, 37, 3, 8, 4, 0, 24, 25, 5, 24, 0, 0, 25,
-		37, 5, 1, 0, 0, 26, 27, 5, 23, 0, 0, 27, 37, 5, 1, 0, 0, 28, 29, 5, 26,
-		0, 0, 29, 30, 5, 6, 0, 0, 30, 31, 3, 10, 5, 0, 31, 32, 5, 1, 0, 0, 32,
-		37, 1, 0, 0, 0, 33, 34, 3, 10, 5, 0, 34, 35, 5, 1, 0, 0, 35, 37, 1, 0,
-		0, 0, 36, 22, 1, 0, 0, 0, 36, 23, 1, 0, 0, 0, 36, 24, 1, 0, 0, 0, 36, 26,
-		1, 0, 0, 0, 36, 28, 1, 0, 0, 0, 36, 33, 1, 0, 0, 0, 37, 5, 1, 0, 0, 0,
-		38, 39, 5, 22, 0, 0, 39, 40, 3, 10, 5, 0, 40, 41, 5, 4, 0, 0, 41, 42, 3,
-		2, 1, 0, 42, 43, 5, 5, 0, 0, 43, 7, 1, 0, 0, 0, 44, 45, 5, 20, 0, 0, 45,
-		46, 3, 10, 5, 0, 46, 47, 5, 4, 0, 0, 47, 48, 3, 2, 1, 0, 48, 49, 5, 5,
-		0, 0, 49, 69, 1, 0, 0, 0, 50, 51, 5, 20, 0, 0, 51, 52, 3, 10, 5, 0, 52,
-		53, 5, 4, 0, 0, 53, 54, 3, 2, 1, 0, 54, 55, 5, 5, 0, 0, 55, 56, 5, 21,
-		0, 0, 56, 57, 3, 8, 4, 0, 57, 69, 1, 0, 0, 0, 58, 59, 5, 20, 0, 0, 59,
-		60, 3, 10, 5, 0, 60, 61, 5, 4, 0, 0, 61, 62, 3, 2, 1, 0, 62, 63, 5, 5,
-		0, 0, 63, 64, 5, 21, 0, 0, 64, 65, 5, 4, 0, 0, 65, 66, 3, 2, 1, 0, 66,
-		67, 5, 5, 0, 0, 67, 69, 1, 0, 0, 0, 68, 44, 1, 0, 0, 0, 68, 50, 1, 0, 0,
-		0, 68, 58, 1, 0, 0, 0, 69, 9, 1, 0, 0, 0, 70, 71, 6, 5, -1, 0, 71, 72,
-		5, 2, 0, 0, 72, 73, 3, 10, 5, 0, 73, 74, 5, 3, 0, 0, 74, 80, 1, 0, 0, 0,
-		75, 80, 5, 25, 0, 0, 76, 80, 5, 26, 0, 0, 77, 78, 7, 0, 0, 0, 78, 80, 3,
-		10, 5, 5, 79, 70, 1, 0, 0, 0, 79, 75, 1, 0, 0, 0, 79, 76, 1, 0, 0, 0, 79,
-		77, 1, 0, 0, 0, 80, 95, 1, 0, 0, 0, 81, 82, 10, 4, 0, 0, 82, 83, 7, 1,
-		0, 0, 83, 94, 3, 10, 5, 5, 84, 85, 10, 3, 0, 0, 85, 86, 7, 2, 0, 0, 86,
-		94, 3, 10, 5, 4, 87, 88, 10, 2, 0, 0, 88, 89, 7, 3, 0, 0, 89, 94, 3, 10,
-		5, 3, 90, 91, 10, 1, 0, 0, 91, 92, 7, 4, 0, 0, 92, 94, 3, 10, 5, 2, 93,
-		81, 1, 0, 0, 0, 93, 84, 1, 0, 0, 0, 93, 87, 1, 0, 0, 0, 93, 90, 1, 0, 0,
-		0, 94, 97, 1, 0, 0, 0, 95, 93, 1, 0, 0, 0, 95, 96, 1, 0, 0, 0, 96, 11,
-		1, 0, 0, 0, 97, 95, 1, 0, 0, 0, 6, 19, 36, 68, 79, 93, 95,
+		4, 1, 4, 1, 4, 1, 4, 1, 4, 3, 4, 85, 8, 4, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5,
+		1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 3, 5, 101, 8, 5,
+		1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5,
+		1, 5, 1, 5, 1, 5, 5, 5, 118, 8, 5, 10, 5, 12, 5, 121, 9, 5, 1, 5, 0, 2,
+		2, 10, 6, 0, 2, 4, 6, 8, 10, 0, 6, 2, 0, 9, 10, 14, 14, 1, 0, 11, 13, 1,
+		0, 9, 10, 1, 0, 15, 18, 1, 0, 19, 20, 1, 0, 21, 22, 136, 0, 12, 1, 0, 0,
+		0, 2, 14, 1, 0, 0, 0, 4, 52, 1, 0, 0, 0, 6, 54, 1, 0, 0, 0, 8, 84, 1, 0,
+		0, 0, 10, 100, 1, 0, 0, 0, 12, 13, 3, 2, 1, 0, 13, 1, 1, 0, 0, 0, 14, 19,
+		6, 1, -1, 0, 15, 16, 10, 1, 0, 0, 16, 18, 3, 4, 2, 0, 17, 15, 1, 0, 0,
+		0, 18, 21, 1, 0, 0, 0, 19, 17, 1, 0, 0, 0, 19, 20, 1, 0, 0, 0, 20, 3, 1,
+		0, 0, 0, 21, 19, 1, 0, 0, 0, 22, 53, 3, 6, 3, 0, 23, 53, 3, 8, 4, 0, 24,
+		25, 5, 27, 0, 0, 25, 53, 5, 1, 0, 0, 26, 27, 5, 26, 0, 0, 27, 53, 5, 1,
+		0, 0, 28, 29, 5, 30, 0, 0, 29, 30, 5, 8, 0, 0, 30, 31, 3, 10, 5, 0, 31,
+		32, 5, 1, 0, 0, 32, 53, 1, 0, 0, 0, 33, 34, 5, 30, 0, 0, 34, 35, 5, 6,
+		0, 0, 35, 36, 3, 10, 5, 0, 36, 37, 5, 7, 0, 0, 37, 38, 5, 8, 0, 0, 38,
+		39, 3, 10, 5, 0, 39, 40, 5, 1, 0, 0, 40, 53, 1, 0, 0, 0, 41, 42, 5, 28,
+		0, 0, 42, 43, 5, 30, 0, 0, 43, 44, 5, 6, 0, 0, 44, 45, 3, 10, 5, 0, 45,
+		46, 5, 7, 0, 0, 46, 47, 5, 1, 0, 0, 47, 53, 1, 0, 0, 0, 48, 49, 3, 10,
+		5, 0, 49, 50, 5, 1, 0, 0, 50, 53, 1, 0, 0, 0, 51, 53, 5, 1, 0, 0, 52, 22,
+		1, 0, 0, 0, 52, 23, 1, 0, 0, 0, 52, 24, 1, 0, 0, 0, 52, 26, 1, 0, 0, 0,
+		52, 28, 1, 0, 0, 0, 52, 33, 1, 0, 0, 0, 52, 41, 1, 0, 0, 0, 52, 48, 1,
+		0, 0, 0, 52, 51, 1, 0, 0, 0, 53, 5, 1, 0, 0, 0, 54, 55, 5, 25, 0, 0, 55,
+		56, 3, 10, 5, 0, 56, 57, 5, 4, 0, 0, 57, 58, 3, 2, 1, 0, 58, 59, 5, 5,
+		0, 0, 59, 7, 1, 0, 0, 0, 60, 61, 5, 23, 0, 0, 61, 62, 3, 10, 5, 0, 62,
+		63, 5, 4, 0, 0, 63, 64, 3, 2, 1, 0, 64, 65, 5, 5, 0, 0, 65, 85, 1, 0, 0,
+		0, 66, 67, 5, 23, 0, 0, 67, 68, 3, 10, 5, 0, 68, 69, 5, 4, 0, 0, 69, 70,
+		3, 2, 1, 0, 70, 71, 5, 5, 0, 0, 71, 72, 5, 24, 0, 0, 72, 73, 3, 8, 4, 0,
+		73, 85, 1, 0, 0, 0, 74, 75, 5, 23, 0, 0, 75, 76, 3, 10, 5, 0, 76, 77, 5,
+		4, 0, 0, 77, 78, 3, 2, 1, 0, 78, 79, 5, 5, 0, 0, 79, 80, 5, 24, 0, 0, 80,
+		81, 5, 4, 0, 0, 81, 82, 3, 2, 1, 0, 82, 83, 5, 5, 0, 0, 83, 85, 1, 0, 0,
+		0, 84, 60, 1, 0, 0, 0, 84, 66, 1, 0, 0, 0, 84, 74, 1, 0, 0, 0, 85, 9, 1,
+		0, 0, 0, 86, 87, 6, 5, -1, 0, 87, 88, 5, 2, 0, 0, 88, 89, 3, 10, 5, 0,
+		89, 90, 5, 3, 0, 0, 90, 101, 1, 0, 0, 0, 91, 101, 5, 29, 0, 0, 92, 93,
+		5, 30, 0, 0, 93, 94, 5, 6, 0, 0, 94, 95, 3, 10, 5, 0, 95, 96, 5, 7, 0,
+		0, 96, 101, 1, 0, 0, 0, 97, 101, 5, 30, 0, 0, 98, 99, 7, 0, 0, 0, 99, 101,
+		3, 10, 5, 6, 100, 86, 1, 0, 0, 0, 100, 91, 1, 0, 0, 0, 100, 92, 1, 0, 0,
+		0, 100, 97, 1, 0, 0, 0, 100, 98, 1, 0, 0, 0, 101, 119, 1, 0, 0, 0, 102,
+		103, 10, 5, 0, 0, 103, 104, 7, 1, 0, 0, 104, 118, 3, 10, 5, 6, 105, 106,
+		10, 4, 0, 0, 106, 107, 7, 2, 0, 0, 107, 118, 3, 10, 5, 5, 108, 109, 10,
+		3, 0, 0, 109, 110, 7, 3, 0, 0, 110, 118, 3, 10, 5, 4, 111, 112, 10, 2,
+		0, 0, 112, 113, 7, 4, 0, 0, 113, 118, 3, 10, 5, 3, 114, 115, 10, 1, 0,
+		0, 115, 116, 7, 5, 0, 0, 116, 118, 3, 10, 5, 2, 117, 102, 1, 0, 0, 0, 117,
+		105, 1, 0, 0, 0, 117, 108, 1, 0, 0, 0, 117, 111, 1, 0, 0, 0, 117, 114,
+		1, 0, 0, 0, 118, 121, 1, 0, 0, 0, 119, 117, 1, 0, 0, 0, 119, 120, 1, 0,
+		0, 0, 120, 11, 1, 0, 0, 0, 121, 119, 1, 0, 0, 0, 6, 19, 52, 84, 100, 117,
+		119,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -133,30 +146,34 @@ const (
 	CodeCalcParserR_BRACE           = 3
 	CodeCalcParserL_C_BRACE         = 4
 	CodeCalcParserR_C_BRACE         = 5
-	CodeCalcParserASSIGN            = 6
-	CodeCalcParserOP_ADD            = 7
-	CodeCalcParserOP_SUB            = 8
-	CodeCalcParserOP_MUL            = 9
-	CodeCalcParserOP_DIV            = 10
-	CodeCalcParserOP_NOT            = 11
-	CodeCalcParserOP_GRT            = 12
-	CodeCalcParserOP_LST            = 13
-	CodeCalcParserOP_GTE            = 14
-	CodeCalcParserOP_LTE            = 15
-	CodeCalcParserOP_EQU            = 16
-	CodeCalcParserOP_NEQ            = 17
-	CodeCalcParserOP_OR             = 18
-	CodeCalcParserOP_AND            = 19
-	CodeCalcParserIF                = 20
-	CodeCalcParserELSE              = 21
-	CodeCalcParserWHILE             = 22
-	CodeCalcParserCONTINUE          = 23
-	CodeCalcParserBREAK             = 24
-	CodeCalcParserNumber            = 25
-	CodeCalcParserIdentifier        = 26
-	CodeCalcParserWhiteSpace        = 27
-	CodeCalcParserCommentMultiLine  = 28
-	CodeCalcParserCommentSingleLine = 29
+	CodeCalcParserL_S_BRACE         = 6
+	CodeCalcParserR_S_BRACE         = 7
+	CodeCalcParserASSIGN            = 8
+	CodeCalcParserOP_ADD            = 9
+	CodeCalcParserOP_SUB            = 10
+	CodeCalcParserOP_MUL            = 11
+	CodeCalcParserOP_DIV            = 12
+	CodeCalcParserOP_MOD            = 13
+	CodeCalcParserOP_NOT            = 14
+	CodeCalcParserOP_GRT            = 15
+	CodeCalcParserOP_LST            = 16
+	CodeCalcParserOP_GTE            = 17
+	CodeCalcParserOP_LTE            = 18
+	CodeCalcParserOP_EQU            = 19
+	CodeCalcParserOP_NEQ            = 20
+	CodeCalcParserOP_OR             = 21
+	CodeCalcParserOP_AND            = 22
+	CodeCalcParserIF                = 23
+	CodeCalcParserELSE              = 24
+	CodeCalcParserWHILE             = 25
+	CodeCalcParserCONTINUE          = 26
+	CodeCalcParserBREAK             = 27
+	CodeCalcParserARRAY             = 28
+	CodeCalcParserNumber            = 29
+	CodeCalcParserIdentifier        = 30
+	CodeCalcParserWhiteSpace        = 31
+	CodeCalcParserCommentMultiLine  = 32
+	CodeCalcParserCommentSingleLine = 33
 )
 
 // CodeCalcParser rules.
@@ -625,6 +642,112 @@ func (s *BreakStatementContext) Accept(visitor antlr.ParseTreeVisitor) interface
 	}
 }
 
+type AssignIndexStatementContext struct {
+	StatementContext
+	identifier antlr.Token
+}
+
+func NewAssignIndexStatementContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *AssignIndexStatementContext {
+	var p = new(AssignIndexStatementContext)
+
+	InitEmptyStatementContext(&p.StatementContext)
+	p.parser = parser
+	p.CopyAll(ctx.(*StatementContext))
+
+	return p
+}
+
+func (s *AssignIndexStatementContext) GetIdentifier() antlr.Token { return s.identifier }
+
+func (s *AssignIndexStatementContext) SetIdentifier(v antlr.Token) { s.identifier = v }
+
+func (s *AssignIndexStatementContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *AssignIndexStatementContext) L_S_BRACE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserL_S_BRACE, 0)
+}
+
+func (s *AssignIndexStatementContext) AllExpression() []IExpressionContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IExpressionContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IExpressionContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IExpressionContext); ok {
+			tst[i] = t.(IExpressionContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *AssignIndexStatementContext) Expression(i int) IExpressionContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExpressionContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExpressionContext)
+}
+
+func (s *AssignIndexStatementContext) R_S_BRACE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserR_S_BRACE, 0)
+}
+
+func (s *AssignIndexStatementContext) ASSIGN() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserASSIGN, 0)
+}
+
+func (s *AssignIndexStatementContext) Terminator() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserTerminator, 0)
+}
+
+func (s *AssignIndexStatementContext) Identifier() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserIdentifier, 0)
+}
+
+func (s *AssignIndexStatementContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.EnterAssignIndexStatement(s)
+	}
+}
+
+func (s *AssignIndexStatementContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.ExitAssignIndexStatement(s)
+	}
+}
+
+func (s *AssignIndexStatementContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CodeCalcParserVisitor:
+		return t.VisitAssignIndexStatement(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
 type ExpressionStatementContext struct {
 	StatementContext
 }
@@ -679,6 +802,87 @@ func (s *ExpressionStatementContext) Accept(visitor antlr.ParseTreeVisitor) inte
 	switch t := visitor.(type) {
 	case CodeCalcParserVisitor:
 		return t.VisitExpressionStatement(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+type ArrayStatementContext struct {
+	StatementContext
+	identifier antlr.Token
+}
+
+func NewArrayStatementContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ArrayStatementContext {
+	var p = new(ArrayStatementContext)
+
+	InitEmptyStatementContext(&p.StatementContext)
+	p.parser = parser
+	p.CopyAll(ctx.(*StatementContext))
+
+	return p
+}
+
+func (s *ArrayStatementContext) GetIdentifier() antlr.Token { return s.identifier }
+
+func (s *ArrayStatementContext) SetIdentifier(v antlr.Token) { s.identifier = v }
+
+func (s *ArrayStatementContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ArrayStatementContext) ARRAY() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserARRAY, 0)
+}
+
+func (s *ArrayStatementContext) L_S_BRACE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserL_S_BRACE, 0)
+}
+
+func (s *ArrayStatementContext) Expression() IExpressionContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExpressionContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExpressionContext)
+}
+
+func (s *ArrayStatementContext) R_S_BRACE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserR_S_BRACE, 0)
+}
+
+func (s *ArrayStatementContext) Terminator() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserTerminator, 0)
+}
+
+func (s *ArrayStatementContext) Identifier() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserIdentifier, 0)
+}
+
+func (s *ArrayStatementContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.EnterArrayStatement(s)
+	}
+}
+
+func (s *ArrayStatementContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.ExitArrayStatement(s)
+	}
+}
+
+func (s *ArrayStatementContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CodeCalcParserVisitor:
+		return t.VisitArrayStatement(s)
 
 	default:
 		return t.VisitChildren(s)
@@ -878,10 +1082,54 @@ func (s *ContinueStatementContext) Accept(visitor antlr.ParseTreeVisitor) interf
 	}
 }
 
+type BlankStatementContext struct {
+	StatementContext
+}
+
+func NewBlankStatementContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *BlankStatementContext {
+	var p = new(BlankStatementContext)
+
+	InitEmptyStatementContext(&p.StatementContext)
+	p.parser = parser
+	p.CopyAll(ctx.(*StatementContext))
+
+	return p
+}
+
+func (s *BlankStatementContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *BlankStatementContext) Terminator() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserTerminator, 0)
+}
+
+func (s *BlankStatementContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.EnterBlankStatement(s)
+	}
+}
+
+func (s *BlankStatementContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.ExitBlankStatement(s)
+	}
+}
+
+func (s *BlankStatementContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CodeCalcParserVisitor:
+		return t.VisitBlankStatement(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
 func (p *CodeCalcParser) Statement() (localctx IStatementContext) {
 	localctx = NewStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, CodeCalcParserRULE_statement)
-	p.SetState(36)
+	p.SetState(52)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -980,14 +1228,132 @@ func (p *CodeCalcParser) Statement() (localctx IStatementContext) {
 		}
 
 	case 6:
-		localctx = NewExpressionStatementContext(p, localctx)
+		localctx = NewAssignIndexStatementContext(p, localctx)
 		p.EnterOuterAlt(localctx, 6)
 		{
 			p.SetState(33)
-			p.expression(0)
+
+			var _m = p.Match(CodeCalcParserIdentifier)
+
+			localctx.(*AssignIndexStatementContext).identifier = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(34)
+			p.Match(CodeCalcParserL_S_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(35)
+			p.expression(0)
+		}
+		{
+			p.SetState(36)
+			p.Match(CodeCalcParserR_S_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(37)
+			p.Match(CodeCalcParserASSIGN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(38)
+			p.expression(0)
+		}
+		{
+			p.SetState(39)
+			p.Match(CodeCalcParserTerminator)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 7:
+		localctx = NewArrayStatementContext(p, localctx)
+		p.EnterOuterAlt(localctx, 7)
+		{
+			p.SetState(41)
+			p.Match(CodeCalcParserARRAY)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(42)
+
+			var _m = p.Match(CodeCalcParserIdentifier)
+
+			localctx.(*ArrayStatementContext).identifier = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(43)
+			p.Match(CodeCalcParserL_S_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(44)
+			p.expression(0)
+		}
+		{
+			p.SetState(45)
+			p.Match(CodeCalcParserR_S_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(46)
+			p.Match(CodeCalcParserTerminator)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 8:
+		localctx = NewExpressionStatementContext(p, localctx)
+		p.EnterOuterAlt(localctx, 8)
+		{
+			p.SetState(48)
+			p.expression(0)
+		}
+		{
+			p.SetState(49)
+			p.Match(CodeCalcParserTerminator)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 9:
+		localctx = NewBlankStatementContext(p, localctx)
+		p.EnterOuterAlt(localctx, 9)
+		{
+			p.SetState(51)
 			p.Match(CodeCalcParserTerminator)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1156,7 +1522,7 @@ func (p *CodeCalcParser) While_statement() (localctx IWhile_statementContext) {
 	localctx = NewWhileStatementContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(38)
+		p.SetState(54)
 		p.Match(CodeCalcParserWHILE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1164,11 +1530,11 @@ func (p *CodeCalcParser) While_statement() (localctx IWhile_statementContext) {
 		}
 	}
 	{
-		p.SetState(39)
+		p.SetState(55)
 		p.expression(0)
 	}
 	{
-		p.SetState(40)
+		p.SetState(56)
 		p.Match(CodeCalcParserL_C_BRACE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1176,11 +1542,11 @@ func (p *CodeCalcParser) While_statement() (localctx IWhile_statementContext) {
 		}
 	}
 	{
-		p.SetState(41)
+		p.SetState(57)
 		p.statements(0)
 	}
 	{
-		p.SetState(42)
+		p.SetState(58)
 		p.Match(CodeCalcParserR_C_BRACE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1567,7 +1933,7 @@ func (s *IfElseStatementContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 	localctx = NewIf_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 8, CodeCalcParserRULE_if_statement)
-	p.SetState(68)
+	p.SetState(84)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1578,7 +1944,7 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 		localctx = NewIfStatementContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(44)
+			p.SetState(60)
 			p.Match(CodeCalcParserIF)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1586,11 +1952,11 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(45)
+			p.SetState(61)
 			p.expression(0)
 		}
 		{
-			p.SetState(46)
+			p.SetState(62)
 			p.Match(CodeCalcParserL_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1598,11 +1964,11 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(47)
+			p.SetState(63)
 			p.statements(0)
 		}
 		{
-			p.SetState(48)
+			p.SetState(64)
 			p.Match(CodeCalcParserR_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1614,7 +1980,7 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 		localctx = NewIfElseIfStatementContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(50)
+			p.SetState(66)
 			p.Match(CodeCalcParserIF)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1622,11 +1988,11 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(51)
+			p.SetState(67)
 			p.expression(0)
 		}
 		{
-			p.SetState(52)
+			p.SetState(68)
 			p.Match(CodeCalcParserL_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1634,11 +2000,11 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(53)
+			p.SetState(69)
 			p.statements(0)
 		}
 		{
-			p.SetState(54)
+			p.SetState(70)
 			p.Match(CodeCalcParserR_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1646,7 +2012,7 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(55)
+			p.SetState(71)
 			p.Match(CodeCalcParserELSE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1654,7 +2020,7 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(56)
+			p.SetState(72)
 			p.If_statement()
 		}
 
@@ -1662,7 +2028,7 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 		localctx = NewIfElseStatementContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(58)
+			p.SetState(74)
 			p.Match(CodeCalcParserIF)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1670,11 +2036,11 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(59)
+			p.SetState(75)
 			p.expression(0)
 		}
 		{
-			p.SetState(60)
+			p.SetState(76)
 			p.Match(CodeCalcParserL_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1682,11 +2048,11 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(61)
+			p.SetState(77)
 			p.statements(0)
 		}
 		{
-			p.SetState(62)
+			p.SetState(78)
 			p.Match(CodeCalcParserR_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1694,7 +2060,7 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(63)
+			p.SetState(79)
 			p.Match(CodeCalcParserELSE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1702,7 +2068,7 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(64)
+			p.SetState(80)
 			p.Match(CodeCalcParserL_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1710,11 +2076,11 @@ func (p *CodeCalcParser) If_statement() (localctx IIf_statementContext) {
 			}
 		}
 		{
-			p.SetState(65)
+			p.SetState(81)
 			p.statements(0)
 		}
 		{
-			p.SetState(66)
+			p.SetState(82)
 			p.Match(CodeCalcParserR_C_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1865,6 +2231,10 @@ func (s *BinaryExpressionContext) OP_DIV() antlr.TerminalNode {
 	return s.GetToken(CodeCalcParserOP_DIV, 0)
 }
 
+func (s *BinaryExpressionContext) OP_MOD() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_MOD, 0)
+}
+
 func (s *BinaryExpressionContext) OP_ADD() antlr.TerminalNode {
 	return s.GetToken(CodeCalcParserOP_ADD, 0)
 }
@@ -1887,6 +2257,14 @@ func (s *BinaryExpressionContext) OP_GTE() antlr.TerminalNode {
 
 func (s *BinaryExpressionContext) OP_LTE() antlr.TerminalNode {
 	return s.GetToken(CodeCalcParserOP_LTE, 0)
+}
+
+func (s *BinaryExpressionContext) OP_EQU() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_EQU, 0)
+}
+
+func (s *BinaryExpressionContext) OP_NEQ() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_NEQ, 0)
 }
 
 func (s *BinaryExpressionContext) OP_AND() antlr.TerminalNode {
@@ -2049,6 +2427,79 @@ func (s *UnaryExpressionContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 	}
 }
 
+type AccessExpressionContext struct {
+	ExpressionContext
+	identifier antlr.Token
+}
+
+func NewAccessExpressionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *AccessExpressionContext {
+	var p = new(AccessExpressionContext)
+
+	InitEmptyExpressionContext(&p.ExpressionContext)
+	p.parser = parser
+	p.CopyAll(ctx.(*ExpressionContext))
+
+	return p
+}
+
+func (s *AccessExpressionContext) GetIdentifier() antlr.Token { return s.identifier }
+
+func (s *AccessExpressionContext) SetIdentifier(v antlr.Token) { s.identifier = v }
+
+func (s *AccessExpressionContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *AccessExpressionContext) L_S_BRACE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserL_S_BRACE, 0)
+}
+
+func (s *AccessExpressionContext) Expression() IExpressionContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExpressionContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExpressionContext)
+}
+
+func (s *AccessExpressionContext) R_S_BRACE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserR_S_BRACE, 0)
+}
+
+func (s *AccessExpressionContext) Identifier() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserIdentifier, 0)
+}
+
+func (s *AccessExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.EnterAccessExpression(s)
+	}
+}
+
+func (s *AccessExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CodeCalcParserListener); ok {
+		listenerT.ExitAccessExpression(s)
+	}
+}
+
+func (s *AccessExpressionContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CodeCalcParserVisitor:
+		return t.VisitAccessExpression(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
 type IdentifierExpressionContext struct {
 	ExpressionContext
 	identifier antlr.Token
@@ -2116,20 +2567,20 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(79)
+	p.SetState(100)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 
-	switch p.GetTokenStream().LA(1) {
-	case CodeCalcParserL_BRACE:
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+	case 1:
 		localctx = NewUnaryExpressionContext(p, localctx)
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 
 		{
-			p.SetState(71)
+			p.SetState(87)
 
 			var _m = p.Match(CodeCalcParserL_BRACE)
 
@@ -2140,11 +2591,11 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			}
 		}
 		{
-			p.SetState(72)
+			p.SetState(88)
 			p.expression(0)
 		}
 		{
-			p.SetState(73)
+			p.SetState(89)
 			p.Match(CodeCalcParserR_BRACE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -2152,12 +2603,12 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			}
 		}
 
-	case CodeCalcParserNumber:
+	case 2:
 		localctx = NewLiteralExpressionContext(p, localctx)
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(75)
+			p.SetState(91)
 
 			var _m = p.Match(CodeCalcParserNumber)
 
@@ -2168,12 +2619,48 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			}
 		}
 
-	case CodeCalcParserIdentifier:
+	case 3:
+		localctx = NewAccessExpressionContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
+		{
+			p.SetState(92)
+
+			var _m = p.Match(CodeCalcParserIdentifier)
+
+			localctx.(*AccessExpressionContext).identifier = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(93)
+			p.Match(CodeCalcParserL_S_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(94)
+			p.expression(0)
+		}
+		{
+			p.SetState(95)
+			p.Match(CodeCalcParserR_S_BRACE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case 4:
 		localctx = NewIdentifierExpressionContext(p, localctx)
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(76)
+			p.SetState(97)
 
 			var _m = p.Match(CodeCalcParserIdentifier)
 
@@ -2184,12 +2671,12 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			}
 		}
 
-	case CodeCalcParserOP_ADD, CodeCalcParserOP_SUB, CodeCalcParserOP_NOT:
+	case 5:
 		localctx = NewUnaryExpressionContext(p, localctx)
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(77)
+			p.SetState(98)
 
 			var _lt = p.GetTokenStream().LT(1)
 
@@ -2197,7 +2684,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 
 			_la = p.GetTokenStream().LA(1)
 
-			if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&2432) != 0) {
+			if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&17920) != 0) {
 				var _ri = p.GetErrorHandler().RecoverInline(p)
 
 				localctx.(*UnaryExpressionContext).op = _ri
@@ -2207,16 +2694,15 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			}
 		}
 		{
-			p.SetState(78)
-			p.expression(5)
+			p.SetState(99)
+			p.expression(6)
 		}
 
-	default:
-		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	case antlr.ATNInvalidAltNumber:
 		goto errorExit
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(95)
+	p.SetState(119)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -2231,7 +2717,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 				p.TriggerExitRuleEvent()
 			}
 			_prevctx = localctx
-			p.SetState(93)
+			p.SetState(117)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -2241,14 +2727,14 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			case 1:
 				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
-				p.SetState(81)
+				p.SetState(102)
 
-				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
-					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(82)
+					p.SetState(103)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -2256,7 +2742,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !(_la == CodeCalcParserOP_MUL || _la == CodeCalcParserOP_DIV) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&14336) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*BinaryExpressionContext).op = _ri
@@ -2266,21 +2752,21 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 					}
 				}
 				{
-					p.SetState(83)
-					p.expression(5)
+					p.SetState(104)
+					p.expression(6)
 				}
 
 			case 2:
 				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
-				p.SetState(84)
+				p.SetState(105)
 
-				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
-					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(85)
+					p.SetState(106)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -2298,21 +2784,21 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 					}
 				}
 				{
-					p.SetState(86)
-					p.expression(4)
+					p.SetState(107)
+					p.expression(5)
 				}
 
 			case 3:
 				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
-				p.SetState(87)
+				p.SetState(108)
 
-				if !(p.Precpred(p.GetParserRuleContext(), 2)) {
-					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
+				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(88)
+					p.SetState(109)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -2320,7 +2806,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&61440) != 0) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&491520) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*BinaryExpressionContext).op = _ri
@@ -2330,21 +2816,53 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 					}
 				}
 				{
-					p.SetState(89)
-					p.expression(3)
+					p.SetState(110)
+					p.expression(4)
 				}
 
 			case 4:
 				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
-				p.SetState(90)
+				p.SetState(111)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 2)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
+					goto errorExit
+				}
+				{
+					p.SetState(112)
+
+					var _lt = p.GetTokenStream().LT(1)
+
+					localctx.(*BinaryExpressionContext).op = _lt
+
+					_la = p.GetTokenStream().LA(1)
+
+					if !(_la == CodeCalcParserOP_EQU || _la == CodeCalcParserOP_NEQ) {
+						var _ri = p.GetErrorHandler().RecoverInline(p)
+
+						localctx.(*BinaryExpressionContext).op = _ri
+					} else {
+						p.GetErrorHandler().ReportMatch(p)
+						p.Consume()
+					}
+				}
+				{
+					p.SetState(113)
+					p.expression(3)
+				}
+
+			case 5:
+				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
+				p.SetState(114)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 1)) {
 					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 1)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(91)
+					p.SetState(115)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -2362,7 +2880,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 					}
 				}
 				{
-					p.SetState(92)
+					p.SetState(116)
 					p.expression(2)
 				}
 
@@ -2371,7 +2889,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			}
 
 		}
-		p.SetState(97)
+		p.SetState(121)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -2429,15 +2947,18 @@ func (p *CodeCalcParser) Statements_Sempred(localctx antlr.RuleContext, predInde
 func (p *CodeCalcParser) Expression_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 1:
-		return p.Precpred(p.GetParserRuleContext(), 4)
+		return p.Precpred(p.GetParserRuleContext(), 5)
 
 	case 2:
-		return p.Precpred(p.GetParserRuleContext(), 3)
+		return p.Precpred(p.GetParserRuleContext(), 4)
 
 	case 3:
-		return p.Precpred(p.GetParserRuleContext(), 2)
+		return p.Precpred(p.GetParserRuleContext(), 3)
 
 	case 4:
+		return p.Precpred(p.GetParserRuleContext(), 2)
+
+	case 5:
 		return p.Precpred(p.GetParserRuleContext(), 1)
 
 	default:

@@ -40,32 +40,36 @@ func (ctx *context) stackOffset() int64 {
 	return ctx.currentScope().stackOffset
 }
 
-func (ctx *context) getVar(identifier string) (string, bool) {
+func (ctx *context) getVar(identifier string) (stackAddress string, dataType dataType, ok bool) {
 	offset := int64(0)
 	for i := len(ctx.scopes) - 1; i >= 0; i-- {
 		if i != len(ctx.scopes)-1 {
 			offset += ctx.scopes[i].stackOffset + 1
 		}
-		if index, ok := ctx.scopes[i].variables[identifier]; ok {
+		if v, ok := ctx.scopes[i].variables[identifier]; ok {
 			if i == len(ctx.scopes)-1 {
-				return "rbp-" + strconv.FormatInt((index+1)*8, 10), true
+				return "rbp-" + strconv.FormatInt((v.index+1)*8, 10), v.dataType, true
 			} else {
-				fmt.Println(offset, index)
-				return "rbp+" + strconv.FormatInt((offset-index)*8, 10), true
+				return "rbp+" + strconv.FormatInt((offset-v.index)*8, 10), v.dataType, true
 			}
 		}
 	}
-	return "", false
+	return "", Integer, false
 }
 
-func (ctx *context) addVar(identifier string) {
+func (ctx *context) addVar(identifier string, dataType dataType) {
+	for i := len(ctx.scopes) - 1; i >= 0; i-- {
+		if _, ok := ctx.scopes[i].variables[identifier]; ok {
+			panic(fmt.Sprintf("Variable %s has already been allocated. It should not be reallocated.", identifier))
+		}
+	}
 	scope := ctx.currentScope()
 	scope.stackOffset++
-	scope.variables[identifier] = scope.stackOffset
+	scope.variables[identifier] = variable{scope.stackOffset, dataType}
 }
 
 func (ctx *context) addScope() {
-	ctx.scopes = append(ctx.scopes, &scope{0, map[string]int64{}})
+	ctx.scopes = append(ctx.scopes, &scope{0, map[string]variable{}})
 }
 
 func (ctx *context) popScope() int64 {
@@ -74,9 +78,20 @@ func (ctx *context) popScope() int64 {
 	return scope.stackOffset
 }
 
+type dataType uint8
+
+const (
+	Integer dataType = iota
+	Array
+)
+
+type variable struct {
+	index    int64
+	dataType dataType
+}
 type scope struct {
 	stackOffset int64
-	variables   map[string]int64
+	variables   map[string]variable
 }
 
 type Module interface {
@@ -106,6 +121,13 @@ use64
 
 format ELF64 executable 3
 entry main
+
+segment readable writeable
+
+panic_msg db 'Panic! Attempting to divide or mod by 0, exiting early.',0xA
+panic_msg_size = $-panic_msg
+arraypanic_msg db 'Panic! Attempting to initilize array with size less than or equal to 0, exiting early.',0xA
+arraypanic_msg_size = $-arraypanic_msg
 
 segment readable executable
 
@@ -175,9 +197,9 @@ printInt:
 
  
   mov rdx, r14
-  lea rsi,[rsp+rcx]
-  mov rdi,1 ; STDOUT
-  mov rax,1 ; sys_write
+  lea rsi, [rsp+rcx]
+  mov rdi, 1 ; STDOUT
+  mov rax, 1 ; sys_write
   syscall
 
   ; Clear up String Buffer
@@ -187,18 +209,35 @@ printInt:
 
 
 exit:
-  mov eax,1
-  xor ebx,ebx
-  int 0x80
+  mov rax, 60 ; exit
+  mov rdi, 0  ; no error 
+  syscall
 
 panic:
-  mov eax,1
-  mov ebx,1
-  int 0x80
+  mov rdx, panic_msg_size
+  lea rsi, [panic_msg]
+  mov rdi, 2 ; STDERR
+  mov rax, 1 ; sys_write
+  syscall
+
+  mov rax, 60 ; exit
+  mov rdi, 0  ; error 
+  syscall
+
+arraypanic:
+  mov rdx, arraypanic_msg_size
+  lea rsi, [arraypanic_msg]
+  mov rdi, 2 ; STDERR
+  mov rax, 1 ; sys_write
+  syscall
+
+  mov rax, 60 ; exit
+  mov rdi, 0  ; error 
+  syscall
 
 routine:
 `
-	ctx := &context{[]*scope{{0, map[string]int64{}}}, 0, []uint64{}}
+	ctx := &context{[]*scope{{0, map[string]variable{}}}, 0, []uint64{}}
 	for _, s := range m.statements {
 		fasm += s.Generate(ctx)
 	}

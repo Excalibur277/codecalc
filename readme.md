@@ -5,6 +5,7 @@ CodeCalc is a simple signed 64-bit integer based language for linux x86-64 targe
 ## Comments
 
 \# A hash starts a line comment that continues until a newline
+
 \` Back ticks are used to start and close multiline comments
 
 ## Expressions
@@ -14,19 +15,25 @@ Expressions consist of literals, variables and operation expressions. Variables 
 ## Operations
 
 There is a basic order of operations:
+
+```
 (,)
-Unary: +,-,!
-Binary: \*,/
-Binary: +,-
-Binary: <=,<,>=,>
-Binary: ==,!=
-Binary: &,|
+Unary: +,-,! (Positive, Negative, Not)
+Binary: \*,/,% (Multiply, Divide, Modulus)
+Binary: +,- (Add, Subtract)
+Binary: <=,<,>=,> (Less than or Equal, Less than, Greater than or Equal, Greater than)
+Binary: ==,!= (Equal, Not Equal)
+Binary: &,| (And, Or)
+```
 
 Binary operators require a value on either side, while unary operators precede a single value.
 
-Comparision operators evaluate to 0 if false and 1 if true. Division by zero causes the execution to fail, returning exit code 1.
+Comparision operators evaluate to 0 if false and 1 if true. Division or modulus by zero causes the execution to fail, returning exit code 1.
+
 & evaluates to 0 if either the value are 0 and 1 otherwise.
+
 | evaluates to 0 if both the value are 0 and 1 otherwise.
+
 Not evaluates to 1 if the value is 0 and 0 otherwise.
 
 ## Statements
@@ -56,7 +63,9 @@ Variables can be reassigned any number of times.
 ### If Statement
 
 If the expression provided to the if statement evaluates to anything other than 0 the subsequent code block will execute, otherwise if an there is a subsequent else or else if statement they will execute.
+
 As a control statement semicolons are not required to terminate, rather the block should be opened and closed with curly braces.
+
 The if statement can be chained with else if and else statements.
 
 ```
@@ -89,6 +98,7 @@ b; # Does not compile as b is not accessible outside of the block it is first as
 ### While Statement
 
 The while statement expression is evaluated the same as the if statement, however on the completion of the codeblock the while statement is repeated. This means while statements repeat the code block until the expression evaluates to 0.
+
 As a control statement semicolons are not required to terminate, rather the block should be opened and closed with curly braces.
 
 e.g.
@@ -151,7 +161,9 @@ To run the binary run:
 
 ```
 
-You can view the produced fasm in [outfilename].asm
+You can view the produced fasm by adding the flag -fasm=[outputfasmfilename]
+
+Additional debug info can be viewed with the flag -debug
 
 ### Parser
 
@@ -160,4 +172,5 @@ The parser uses antlr4 to parse the file and creates an abstract syntax tree thr
 ### Backend
 
 The abstract synatx tree is used to generate assembly for the fasm assembler. Fasm targets x86 instruction sets, however CodeCalc targets the x86-64 bit variant.
+
 The assembly is not optimal, with high stack usage and no consideration for optimal register allocation.

@@ -28,8 +28,17 @@ type CodeCalcParserListener interface {
 	// EnterAssignStatement is called when entering the AssignStatement production.
 	EnterAssignStatement(c *AssignStatementContext)
 
+	// EnterAssignIndexStatement is called when entering the AssignIndexStatement production.
+	EnterAssignIndexStatement(c *AssignIndexStatementContext)
+
+	// EnterArrayStatement is called when entering the ArrayStatement production.
+	EnterArrayStatement(c *ArrayStatementContext)
+
 	// EnterExpressionStatement is called when entering the ExpressionStatement production.
 	EnterExpressionStatement(c *ExpressionStatementContext)
+
+	// EnterBlankStatement is called when entering the BlankStatement production.
+	EnterBlankStatement(c *BlankStatementContext)
 
 	// EnterWhileStatement is called when entering the WhileStatement production.
 	EnterWhileStatement(c *WhileStatementContext)
@@ -51,6 +60,9 @@ type CodeCalcParserListener interface {
 
 	// EnterUnaryExpression is called when entering the UnaryExpression production.
 	EnterUnaryExpression(c *UnaryExpressionContext)
+
+	// EnterAccessExpression is called when entering the AccessExpression production.
+	EnterAccessExpression(c *AccessExpressionContext)
 
 	// EnterIdentifierExpression is called when entering the IdentifierExpression production.
 	EnterIdentifierExpression(c *IdentifierExpressionContext)
@@ -76,8 +88,17 @@ type CodeCalcParserListener interface {
 	// ExitAssignStatement is called when exiting the AssignStatement production.
 	ExitAssignStatement(c *AssignStatementContext)
 
+	// ExitAssignIndexStatement is called when exiting the AssignIndexStatement production.
+	ExitAssignIndexStatement(c *AssignIndexStatementContext)
+
+	// ExitArrayStatement is called when exiting the ArrayStatement production.
+	ExitArrayStatement(c *ArrayStatementContext)
+
 	// ExitExpressionStatement is called when exiting the ExpressionStatement production.
 	ExitExpressionStatement(c *ExpressionStatementContext)
+
+	// ExitBlankStatement is called when exiting the BlankStatement production.
+	ExitBlankStatement(c *BlankStatementContext)
 
 	// ExitWhileStatement is called when exiting the WhileStatement production.
 	ExitWhileStatement(c *WhileStatementContext)
@@ -99,6 +120,9 @@ type CodeCalcParserListener interface {
 
 	// ExitUnaryExpression is called when exiting the UnaryExpression production.
 	ExitUnaryExpression(c *UnaryExpressionContext)
+
+	// ExitAccessExpression is called when exiting the AccessExpression production.
+	ExitAccessExpression(c *AccessExpressionContext)
 
 	// ExitIdentifierExpression is called when exiting the IdentifierExpression production.
 	ExitIdentifierExpression(c *IdentifierExpressionContext)

@@ -9,6 +9,8 @@ L_BRACE    : '(';
 R_BRACE    : ')';
 L_C_BRACE  : '{';
 R_C_BRACE  : '}';
+L_S_BRACE  : '[';
+R_S_BRACE  : ']';
 
 ASSIGN: '=';
 
@@ -16,6 +18,7 @@ OP_ADD : '+';
 OP_SUB : '-';
 OP_MUL : '*';
 OP_DIV : '/';
+OP_MOD : '%';
 OP_NOT : '!';
 
 OP_GRT : '>';
@@ -33,6 +36,7 @@ ELSE     : 'else';
 WHILE    : 'while';
 CONTINUE : 'continue';
 BREAK    : 'break';
+ARRAY    : 'array';
 
 Number     : [0-9][0-9]*;
 Identifier : [\p{L}_] [\p{L}\p{N}_]*;

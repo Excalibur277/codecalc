@@ -27,6 +27,9 @@ type MulExpression struct {
 type DivExpression struct {
 	BaseBinaryExpression
 }
+type ModExpression struct {
+	BaseBinaryExpression
+}
 type LSTExpression struct {
 	BaseBinaryExpression
 }
@@ -62,6 +65,8 @@ func NewBinaryExpression(lhs Expression, operator antlr.Token, rhs Expression) E
 		return &MulExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
 	case "/":
 		return &DivExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
+	case "%":
+		return &ModExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
 	case "<":
 		return &LSTExpression{BaseBinaryExpression{lhs: lhs, rhs: rhs}}
 	case "<=":
@@ -87,8 +92,7 @@ func (e *AddExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop rax\n"
 	fasm += "  add rax, r8\n"
 	return fasm
@@ -102,8 +106,7 @@ func (e *SubExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop rax\n"
 	fasm += "  sub rax, r8\n"
 	return fasm
@@ -117,8 +120,7 @@ func (e *MulExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop rax\n"
 	fasm += "  imul rax, r8\n"
 	return fasm
@@ -132,8 +134,7 @@ func (e *DivExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop rax\n"
 	fasm += "  test r8,r8\n"
 	fasm += "  jz panic\n"
@@ -146,12 +147,29 @@ func (s *DivExpression) String() string {
 	return fmt.Sprintf("%s / %s", s.lhs, s.rhs)
 }
 
+func (e *ModExpression) Generate(ctx *context) string {
+	fasm := e.lhs.Generate(ctx)
+	fasm += "  push rax\n"
+	fasm += e.rhs.Generate(ctx)
+	fasm += "  mov r8, rax\n"
+	fasm += "  pop rax\n"
+	fasm += "  test r8,r8\n"
+	fasm += "  jz panic\n"
+	fasm += "  xor rdx, rdx\n"
+	fasm += "  idiv qword r8\n"
+	fasm += "  mov rax, rdx\n"
+	return fasm
+}
+
+func (s *ModExpression) String() string {
+	return fmt.Sprintf("%s %% %s", s.lhs, s.rhs)
+}
+
 func (e *LSTExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  xor rax, rax\n"
 	fasm += "  cmp r9, r8\n"
@@ -167,8 +185,7 @@ func (e *LTEExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  xor rax, rax\n"
 	fasm += "  cmp r9, r8\n"
@@ -184,8 +201,7 @@ func (e *GRTExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  xor rax, rax\n"
 	fasm += "  cmp r9, r8\n"
@@ -201,8 +217,7 @@ func (e *GTEExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  xor rax, rax\n"
 	fasm += "  cmp r9, r8\n"
@@ -218,8 +233,7 @@ func (e *EQUExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  xor rax, rax\n"
 	fasm += "  cmp r9, r8\n"
@@ -235,8 +249,7 @@ func (e *NEQExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  xor rax, rax\n"
 	fasm += "  cmp r9, r8\n"
@@ -252,8 +265,7 @@ func (e *AndExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  xor rax, rax\n"
 	fasm += "  xor rbx, rbx\n"
@@ -273,8 +285,7 @@ func (e *OrExpression) Generate(ctx *context) string {
 	fasm := e.lhs.Generate(ctx)
 	fasm += "  push rax\n"
 	fasm += e.rhs.Generate(ctx)
-	fasm += "  push rax\n"
-	fasm += "  pop r8\n"
+	fasm += "  mov r8, rax\n"
 	fasm += "  pop r9\n"
 	fasm += "  or r8, r9\n"
 	fasm += "  xor rax, rax\n"

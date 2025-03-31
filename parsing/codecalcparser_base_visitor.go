@@ -35,7 +35,19 @@ func (v *BaseCodeCalcParserVisitor) VisitAssignStatement(ctx *AssignStatementCon
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseCodeCalcParserVisitor) VisitAssignIndexStatement(ctx *AssignIndexStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitArrayStatement(ctx *ArrayStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseCodeCalcParserVisitor) VisitExpressionStatement(ctx *ExpressionStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitBlankStatement(ctx *BlankStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -64,6 +76,10 @@ func (v *BaseCodeCalcParserVisitor) VisitLiteralExpression(ctx *LiteralExpressio
 }
 
 func (v *BaseCodeCalcParserVisitor) VisitUnaryExpression(ctx *UnaryExpressionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitAccessExpression(ctx *AccessExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

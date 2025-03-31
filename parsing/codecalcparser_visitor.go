@@ -28,8 +28,17 @@ type CodeCalcParserVisitor interface {
 	// Visit a parse tree produced by CodeCalcParser#AssignStatement.
 	VisitAssignStatement(ctx *AssignStatementContext) interface{}
 
+	// Visit a parse tree produced by CodeCalcParser#AssignIndexStatement.
+	VisitAssignIndexStatement(ctx *AssignIndexStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#ArrayStatement.
+	VisitArrayStatement(ctx *ArrayStatementContext) interface{}
+
 	// Visit a parse tree produced by CodeCalcParser#ExpressionStatement.
 	VisitExpressionStatement(ctx *ExpressionStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#BlankStatement.
+	VisitBlankStatement(ctx *BlankStatementContext) interface{}
 
 	// Visit a parse tree produced by CodeCalcParser#WhileStatement.
 	VisitWhileStatement(ctx *WhileStatementContext) interface{}
@@ -51,6 +60,9 @@ type CodeCalcParserVisitor interface {
 
 	// Visit a parse tree produced by CodeCalcParser#UnaryExpression.
 	VisitUnaryExpression(ctx *UnaryExpressionContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#AccessExpression.
+	VisitAccessExpression(ctx *AccessExpressionContext) interface{}
 
 	// Visit a parse tree produced by CodeCalcParser#IdentifierExpression.
 	VisitIdentifierExpression(ctx *IdentifierExpressionContext) interface{}
