@@ -69,18 +69,9 @@ func (s *ExpressionStatement) String() string {
 
 func (s *ExpressionStatement) Generate(ctx *context) string {
 	fasm := s.expression.Generate(ctx)
-	fasm += `  ; Setup Call Stack Frame
-  push rbp
-  mov rbp, rsp
-  
-  ; Call Function
+	fasm += `
   push rax
   call printInt
-  add rsp, 8
-  
-  ; Reset Stack Frame
-  mov rsp, rbp
-  pop rbp
 `
 	return fasm
 }

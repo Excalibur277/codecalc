@@ -2,6 +2,7 @@ package ast
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -18,8 +19,8 @@ func (s *BreakStatement) String() string {
 }
 
 func (s *BreakStatement) Generate(ctx *context) string {
-	if len(ctx.whiles) > 0 {
-		return fmt.Sprintf("  jmp .breakwhile%d\n", ctx.whiles[len(ctx.whiles)-1])
+	if labelCount, offset, ok := ctx.currentLoop(); ok {
+		return fmt.Sprintf("  add rbp, %s\n  jmp .breakwhile%d\n", strconv.FormatInt((offset)*8, 10), labelCount)
 	} else {
 		panic("Cannot 'break' outside of a while statement")
 	}
@@ -38,8 +39,8 @@ func (s *ContinueStatement) String() string {
 }
 
 func (s *ContinueStatement) Generate(ctx *context) string {
-	if len(ctx.whiles) > 0 {
-		return fmt.Sprintf("  jmp .continuewhile%d\n", ctx.whiles[len(ctx.whiles)-1])
+	if labelCount, offset, ok := ctx.currentLoop(); ok {
+		return fmt.Sprintf("  add rbp, %s\n  jmp .continuewhile%d\n", strconv.FormatInt((offset)*8, 10), labelCount)
 	} else {
 		panic("Cannot 'continue' outside of a while statement")
 	}
@@ -60,35 +61,27 @@ func (s *WhileStatement) String() string {
 }
 
 func (s *WhileStatement) Generate(ctx *context) string {
-	ctx.labelCounter++
-	labelCount := ctx.labelCounter
-	ctx.whiles = append(ctx.whiles, labelCount)
+	exp := s.expression.Generate(ctx)
 
+	labelCount := ctx.addScope(true)
 	fasm := fmt.Sprintf(".checkwhile%d:\n", labelCount)
-
-	fasm += s.expression.Generate(ctx)
-
+	fasm += exp
 	fasm += "  test rax,rax\n"
 	fasm += fmt.Sprintf("  jz .finishwhile%d\n", labelCount)
 
 	fasm += "  push rbp\n"
 	fasm += "  mov rbp, rsp\n"
 
-	ctx.addScope()
-
 	for _, statement := range s.statements {
 		fasm += statement.Generate(ctx)
 	}
 
-	assigned := ctx.popScope()
-
+	ctx.popScope()
 	fasm += fmt.Sprintf(".continuewhile%d:\n", labelCount)
-	fasm += fmt.Sprintf("  add rsp, %d*8\n", assigned)
 	fasm += "  mov rsp, rbp\n"
 	fasm += "  pop rbp\n"
 	fasm += fmt.Sprintf("  jmp .checkwhile%d\n", labelCount)
 	fasm += fmt.Sprintf(".breakwhile%d:\n", labelCount)
-	fasm += fmt.Sprintf("  add rsp, %d*8\n", assigned)
 	fasm += "  mov rsp, rbp\n"
 	fasm += "  pop rbp\n"
 	fasm += fmt.Sprintf(".finishwhile%d:\n", labelCount)

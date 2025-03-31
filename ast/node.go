@@ -29,15 +29,21 @@ func SliceToString[T Node](nodes []T, sep string) string {
 type context struct {
 	scopes       []*scope
 	labelCounter uint64
-	whiles       []uint64
+}
+
+func (ctx *context) currentLoop() (labelCount uint64, offset int64, ok bool) {
+	for i := len(ctx.scopes) - 1; i >= 0; i-- {
+		if ctx.scopes[i].loop {
+			return ctx.scopes[i].labelCount, offset, true
+		} else {
+			offset += ctx.scopes[i].stackOffset + 1
+		}
+	}
+	return 0, offset, false
 }
 
 func (ctx *context) currentScope() *scope {
 	return ctx.scopes[len(ctx.scopes)-1]
-}
-
-func (ctx *context) stackOffset() int64 {
-	return ctx.currentScope().stackOffset
 }
 
 func (ctx *context) getVar(identifier string) (stackAddress string, dataType dataType, ok bool) {
@@ -48,7 +54,7 @@ func (ctx *context) getVar(identifier string) (stackAddress string, dataType dat
 		}
 		if v, ok := ctx.scopes[i].variables[identifier]; ok {
 			if i == len(ctx.scopes)-1 {
-				return "rbp-" + strconv.FormatInt((v.index+1)*8, 10), v.dataType, true
+				return "rbp-" + strconv.FormatInt((v.index)*8, 10), v.dataType, true
 			} else {
 				return "rbp+" + strconv.FormatInt((offset-v.index)*8, 10), v.dataType, true
 			}
@@ -68,8 +74,10 @@ func (ctx *context) addVar(identifier string, dataType dataType) {
 	scope.variables[identifier] = variable{scope.stackOffset, dataType}
 }
 
-func (ctx *context) addScope() {
-	ctx.scopes = append(ctx.scopes, &scope{0, map[string]variable{}})
+func (ctx *context) addScope(loop bool) uint64 {
+	ctx.labelCounter++
+	ctx.scopes = append(ctx.scopes, &scope{ctx.labelCounter, 0, map[string]variable{}, loop})
+	return ctx.labelCounter
 }
 
 func (ctx *context) popScope() int64 {
@@ -90,8 +98,10 @@ type variable struct {
 	dataType dataType
 }
 type scope struct {
+	labelCount  uint64
 	stackOffset int64
 	variables   map[string]variable
+	loop        bool
 }
 
 type Module interface {
@@ -132,23 +142,16 @@ arraypanic_msg_size = $-arraypanic_msg
 segment readable executable
 
 main: 
-  ; Setup Call Stack Frame
+  call routine
+  jmp exit
+
+  
+printInt:
   push rbp
   mov rbp, rsp
 
-  ; Call Function
-  call routine
-
-  ; Reset Stack Frame
-  mov rsp, rbp
-  pop rbp
-
-
-  jmp exit
-
-printInt:
   ; Move parameter to rax
-  mov rax, [rsp+8]
+  mov rax, [rbp+16]
  
   ; Create String Buffer
   sub rsp, 21
@@ -205,7 +208,9 @@ printInt:
   ; Clear up String Buffer
   add rsp, 21
 
-  ret
+  mov rsp, rbp
+  pop rbp
+  ret 1*8
 
 
 exit:
@@ -236,13 +241,16 @@ arraypanic:
   syscall
 
 routine:
+  push rbp
+  mov rbp, rsp
 `
-	ctx := &context{[]*scope{{0, map[string]variable{}}}, 0, []uint64{}}
+	ctx := &context{[]*scope{{0, 0, map[string]variable{}, false}}, 0}
 	for _, s := range m.statements {
 		fasm += s.Generate(ctx)
 	}
-	fasm += "  add rsp, " + strconv.FormatInt((ctx.stackOffset())*8, 10) + "\n"
-	fasm += "  ret"
+	fasm += "  mov rsp, rbp\n"
+	fasm += "  pop rbp\n"
+	fasm += "  ret\n"
 	return fasm
 }
 

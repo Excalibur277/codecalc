@@ -1,0 +1,9 @@
+val = 0;
+while !val {
+    val;
+    if 1 {
+        val = 2;
+        continue;
+    }
+}
+val;

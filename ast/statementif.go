@@ -29,18 +29,16 @@ func (s *IfStatement) String() string {
 }
 
 func (s *IfStatement) Generate(ctx *context) string {
-	ctx.labelCounter++
-	labelCount := ctx.labelCounter
 
 	fasm := s.expression.Generate(ctx)
+
+	labelCount := ctx.addScope(false)
 
 	fasm += "  test rax,rax\n"
 	fasm += fmt.Sprintf("  jz .else%d\n", labelCount)
 
 	fasm += "  push rbp\n"
 	fasm += "  mov rbp, rsp\n"
-
-	ctx.addScope()
 
 	for _, statement := range s.statements {
 		fasm += statement.Generate(ctx)
@@ -80,15 +78,13 @@ func (s *ElseStatement) Generate(ctx *context) string {
 	fasm := "  push rbp\n"
 	fasm += "  mov rbp, rsp\n"
 
-	ctx.addScope()
+	ctx.addScope(false)
 
 	for _, statement := range s.statements {
 		fasm += statement.Generate(ctx)
 	}
 
-	assigned := ctx.popScope()
-
-	fasm += fmt.Sprintf("  add rsp, %d*8\n", assigned)
+	ctx.popScope()
 	fasm += "  mov rsp, rbp\n"
 	fasm += "  pop rbp\n"
 

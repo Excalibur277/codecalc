@@ -1,82 +1,65 @@
-# The Computer Language Benchmarks Game
-#   https:#salsa.debian.org/benchmarksgame-team/benchmarksgame/
-#
-
 n = 10;
-array perm1[n];
+array arr[n];
 
-perm1i = 0;
-while perm1i < n {
-    perm1[perm1i] = perm1i;
-    perm1i = perm1i + 1;
-}
+arr[0] = 5;
+arr[1] = 8;
+arr[2] = 3;
+arr[3] = 4;
+arr[4] = 1;
+arr[5] = 9;
+arr[6] = 0;
+arr[7] = 7;
+arr[8] = 6;
+arr[9] = 2;
 
-array perm[n];
-array count[n];
-r = 0;
-k = 0;
-j = 0;
-checksum = 0;
-nperm = 0;
-flips = 0;
-f = 0;
+arr[0];
+arr[1];
+arr[2];
+arr[3];
+arr[4];
+arr[5];
+arr[6];
+arr[7];
+arr[8];
+arr[9];
 
-r = n;
-while r > 0 {
-    i = 0;  
-    while r != 1 { count[r-1] = r; r = r - 1;}  
-    while i < n {perm[i] = perm1[i]; i = i + 1;}  
-
-    # Count flips and update max and checksum
-    f = 0;
-    k = perm[0];
-    while k != 0 {
-        i = 0;
-        while 2*i < k {        
-            t = perm[i]; perm[i] = perm[k-i]; perm[k-i] = t;
-            i = i + 1;
-        }     
-
-        k = perm[0];
-        f = f + 1;
-    }
-    if f > flips { flips = f; }         
-    if (nperm % 2) == 0 {
-        checksum = checksum + f;
-    }
-    else { 
-        checksum = checksum - f;
-    }
-
-    # Use incremental change to generate another permutation   
-    more = 1;
-    while more {
-        if r == n {
-            checksum;      
-            r = 0;
-            break;
+sorted = 0;
+while !sorted {
+    i = 1;
+    prev = -1;
+    while i < n {
+        if arr[i-1] > arr[i] {
+            t = arr[i-1];
+            arr[i-1] = arr[i];
+            arr[i] = t;
         }
-
-        p0 = perm1[0];
-        i = 0;
-        while i < r {
-            j = i + 1;
-            perm1[i] = perm1[j];
-            i = j;
-        }         
-
-        perm1[r] = p0 ;
-        
-        count[r] = count[r] - 1   ;     
-        if count[r] > 0 { 
-            99;
-            more = 0; 
-        } else { 
-            r = r + 1; 
-        } 
+        i = i + 1;
     }
-    nperm = nperm + 1;
-    r = r - 1;
-}
 
-flips;
+
+
+    i = 0;
+    prev = -1;
+    sorted = 1;
+    while i < n {
+        if prev == -1 {
+            prev = arr[i];
+        } else if prev > arr[i] {
+            sorted = 0;
+            break;
+        } else {
+            prev = arr[i];
+        }
+        i = i + 1;
+    }
+}
+arr[0];
+arr[1];
+arr[2];
+arr[3];
+arr[4];
+arr[5];
+arr[6];
+arr[7];
+arr[8];
+arr[9];
