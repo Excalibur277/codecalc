@@ -1,3 +1,12 @@
+// The Computer Language Benchmarks Game
+//   https:#salsa.debian.org/benchmarksgame-team/benchmarksgame/
+//
+//   Naive transliteration from Rex Kerr's Scala program
+//   contributed by Isaac Gouy
+//
+// python version
+// Addapted for c by sethbardsley
+
 #include <stdio.h>
 int main()
 {
