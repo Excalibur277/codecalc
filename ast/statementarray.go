@@ -42,6 +42,7 @@ func (s *ArrayStatement) Generate(ctx *context) string {
 	fasm += "  mov rax, 9\n"
 	fasm += "  syscall\n"
 	fasm += "  push rax\n"
+	// TODO - deallocate array
 	return fasm
 }
 
