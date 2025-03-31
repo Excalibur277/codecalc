@@ -104,8 +104,8 @@ a; Prints 2
 Additionally there are 2 more statements valid within the while loop.
 
 ```
-continue; # Terminates this execution of the codeblock and immediately goes to evaluate the while expression.
-break; # Terminates this execution of the codeblock and immediately ends the while statement without evaluation of the expression.
+continue; # Terminates this execution of the while codeblock and immediately goes to evaluate the while expression.
+break; # Terminates this execution of the while codeblock and immediately ends the while statement without evaluation of the expression.
 ```
 
 e.g.

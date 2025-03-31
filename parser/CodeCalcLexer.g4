@@ -7,6 +7,8 @@ lexer grammar CodeCalcLexer;
 Terminator : ';';
 L_BRACE    : '(';
 R_BRACE    : ')';
+L_C_BRACE  : '{';
+R_C_BRACE  : '}';
 
 ASSIGN: '=';
 
@@ -25,6 +27,12 @@ OP_NEQ : '!=';
 
 OP_OR  : '|';
 OP_AND : '&';
+
+IF       : 'if';
+ELSE     : 'else';
+WHILE    : 'while';
+CONTINUE : 'continue';
+BREAK    : 'break';
 
 Number     : [0-9][0-9]*;
 Identifier : [\p{L}_] [\p{L}\p{N}_]*;

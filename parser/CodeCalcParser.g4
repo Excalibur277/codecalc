@@ -16,8 +16,22 @@ statements
     ;
 
 statement
-    : identifier = Identifier ASSIGN expression Terminator # AssignStatement
+    : while_statement                                      # PassThroughStatement
+    | if_statement                                         # PassThroughStatement
+    | BREAK Terminator                                     # BreakStatement
+    | CONTINUE Terminator                                  # ContinueStatement
+    | identifier = Identifier ASSIGN expression Terminator # AssignStatement
     | expression Terminator                                # ExpressionStatement
+    ;
+
+while_statement
+    : WHILE expression L_C_BRACE statements R_C_BRACE # WhileStatement
+    ;
+
+if_statement
+    : IF expression L_C_BRACE statements R_C_BRACE                                     # IfStatement
+    | IF expression L_C_BRACE statements R_C_BRACE ELSE if_statement                   # IfElseIfStatement
+    | IF expression L_C_BRACE statements R_C_BRACE ELSE L_C_BRACE statements R_C_BRACE # IfElseStatement
     ;
 
 expression

@@ -1,0 +1,21 @@
+a = 5;
+
+# If must be the first statement in the if-elseif-else chain.
+if a > 2 {
+    2;
+}
+# Optional subsequent statements
+else if a > 1 {
+    1;
+}
+# Else must be the final statement in the if-elseif-else chain.
+else {
+    0;
+}
+
+# A solo if statement is valid
+b = 5;
+if a > 2 {
+    b = 4;
+}
+b;

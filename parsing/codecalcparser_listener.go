@@ -16,11 +16,32 @@ type CodeCalcParserListener interface {
 	// EnterStatementsInitial is called when entering the StatementsInitial production.
 	EnterStatementsInitial(c *StatementsInitialContext)
 
+	// EnterPassThroughStatement is called when entering the PassThroughStatement production.
+	EnterPassThroughStatement(c *PassThroughStatementContext)
+
+	// EnterBreakStatement is called when entering the BreakStatement production.
+	EnterBreakStatement(c *BreakStatementContext)
+
+	// EnterContinueStatement is called when entering the ContinueStatement production.
+	EnterContinueStatement(c *ContinueStatementContext)
+
 	// EnterAssignStatement is called when entering the AssignStatement production.
 	EnterAssignStatement(c *AssignStatementContext)
 
 	// EnterExpressionStatement is called when entering the ExpressionStatement production.
 	EnterExpressionStatement(c *ExpressionStatementContext)
+
+	// EnterWhileStatement is called when entering the WhileStatement production.
+	EnterWhileStatement(c *WhileStatementContext)
+
+	// EnterIfStatement is called when entering the IfStatement production.
+	EnterIfStatement(c *IfStatementContext)
+
+	// EnterIfElseIfStatement is called when entering the IfElseIfStatement production.
+	EnterIfElseIfStatement(c *IfElseIfStatementContext)
+
+	// EnterIfElseStatement is called when entering the IfElseStatement production.
+	EnterIfElseStatement(c *IfElseStatementContext)
 
 	// EnterBinaryExpression is called when entering the BinaryExpression production.
 	EnterBinaryExpression(c *BinaryExpressionContext)
@@ -43,11 +64,32 @@ type CodeCalcParserListener interface {
 	// ExitStatementsInitial is called when exiting the StatementsInitial production.
 	ExitStatementsInitial(c *StatementsInitialContext)
 
+	// ExitPassThroughStatement is called when exiting the PassThroughStatement production.
+	ExitPassThroughStatement(c *PassThroughStatementContext)
+
+	// ExitBreakStatement is called when exiting the BreakStatement production.
+	ExitBreakStatement(c *BreakStatementContext)
+
+	// ExitContinueStatement is called when exiting the ContinueStatement production.
+	ExitContinueStatement(c *ContinueStatementContext)
+
 	// ExitAssignStatement is called when exiting the AssignStatement production.
 	ExitAssignStatement(c *AssignStatementContext)
 
 	// ExitExpressionStatement is called when exiting the ExpressionStatement production.
 	ExitExpressionStatement(c *ExpressionStatementContext)
+
+	// ExitWhileStatement is called when exiting the WhileStatement production.
+	ExitWhileStatement(c *WhileStatementContext)
+
+	// ExitIfStatement is called when exiting the IfStatement production.
+	ExitIfStatement(c *IfStatementContext)
+
+	// ExitIfElseIfStatement is called when exiting the IfElseIfStatement production.
+	ExitIfElseIfStatement(c *IfElseIfStatementContext)
+
+	// ExitIfElseStatement is called when exiting the IfElseStatement production.
+	ExitIfElseStatement(c *IfElseStatementContext)
 
 	// ExitBinaryExpression is called when exiting the BinaryExpression production.
 	ExitBinaryExpression(c *BinaryExpressionContext)

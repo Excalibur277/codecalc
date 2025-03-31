@@ -16,11 +16,32 @@ type CodeCalcParserVisitor interface {
 	// Visit a parse tree produced by CodeCalcParser#StatementsInitial.
 	VisitStatementsInitial(ctx *StatementsInitialContext) interface{}
 
+	// Visit a parse tree produced by CodeCalcParser#PassThroughStatement.
+	VisitPassThroughStatement(ctx *PassThroughStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#BreakStatement.
+	VisitBreakStatement(ctx *BreakStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#ContinueStatement.
+	VisitContinueStatement(ctx *ContinueStatementContext) interface{}
+
 	// Visit a parse tree produced by CodeCalcParser#AssignStatement.
 	VisitAssignStatement(ctx *AssignStatementContext) interface{}
 
 	// Visit a parse tree produced by CodeCalcParser#ExpressionStatement.
 	VisitExpressionStatement(ctx *ExpressionStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#WhileStatement.
+	VisitWhileStatement(ctx *WhileStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#IfStatement.
+	VisitIfStatement(ctx *IfStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#IfElseIfStatement.
+	VisitIfElseIfStatement(ctx *IfElseIfStatementContext) interface{}
+
+	// Visit a parse tree produced by CodeCalcParser#IfElseStatement.
+	VisitIfElseStatement(ctx *IfElseStatementContext) interface{}
 
 	// Visit a parse tree produced by CodeCalcParser#BinaryExpression.
 	VisitBinaryExpression(ctx *BinaryExpressionContext) interface{}

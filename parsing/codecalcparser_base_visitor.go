@@ -19,11 +19,39 @@ func (v *BaseCodeCalcParserVisitor) VisitStatementsInitial(ctx *StatementsInitia
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseCodeCalcParserVisitor) VisitPassThroughStatement(ctx *PassThroughStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitBreakStatement(ctx *BreakStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitContinueStatement(ctx *ContinueStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseCodeCalcParserVisitor) VisitAssignStatement(ctx *AssignStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
 func (v *BaseCodeCalcParserVisitor) VisitExpressionStatement(ctx *ExpressionStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitWhileStatement(ctx *WhileStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitIfStatement(ctx *IfStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitIfElseIfStatement(ctx *IfElseIfStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCodeCalcParserVisitor) VisitIfElseStatement(ctx *IfElseStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

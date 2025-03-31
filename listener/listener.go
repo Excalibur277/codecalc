@@ -65,6 +65,34 @@ func (l *CodeCalcListener) ExitExpressionStatement(c *parsing.ExpressionStatemen
 	Push(l, ast.NewExpressionStatement(Dequeue[ast.Expression](l)))
 }
 
+func (l *CodeCalcListener) ExitBreakStatement(c *parsing.BreakStatementContext) {
+	Push(l, ast.NewBreakStatement())
+}
+
+func (l *CodeCalcListener) ExitContinueStatement(c *parsing.ContinueStatementContext) {
+	Push(l, ast.NewContinueStatement())
+}
+
+func (l *CodeCalcListener) ExitWhileStatement(c *parsing.WhileStatementContext) {
+	l.Pop(2)
+	Push(l, ast.NewWhileStatement(Dequeue[ast.Expression](l), Dequeue[[]ast.Statement](l)))
+}
+
+func (l *CodeCalcListener) ExitIfStatement(c *parsing.IfStatementContext) {
+	l.Pop(2)
+	Push(l, ast.NewIfStatement(Dequeue[ast.Expression](l), Dequeue[[]ast.Statement](l)))
+}
+
+func (l *CodeCalcListener) ExitIfElseIfStatement(c *parsing.IfElseIfStatementContext) {
+	l.Pop(3)
+	Push(l, ast.NewIfElseStatement(Dequeue[ast.Expression](l), Dequeue[[]ast.Statement](l), Dequeue[ast.Statement](l)))
+}
+
+func (l *CodeCalcListener) ExitIfElseStatement(c *parsing.IfElseStatementContext) {
+	l.Pop(3)
+	Push(l, ast.NewIfElseStatement(Dequeue[ast.Expression](l), Dequeue[[]ast.Statement](l), ast.NewElseStatement(Dequeue[[]ast.Statement](l))))
+}
+
 func (l *CodeCalcListener) ExitBinaryExpression(c *parsing.BinaryExpressionContext) {
 	l.Pop(2)
 	Push(l, ast.NewBinaryExpression(Dequeue[ast.Expression](l), c.GetOp(), Dequeue[ast.Expression](l)))

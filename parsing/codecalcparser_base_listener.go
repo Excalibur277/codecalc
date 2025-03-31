@@ -38,6 +38,24 @@ func (s *BaseCodeCalcParserListener) EnterStatementsInitial(ctx *StatementsIniti
 // ExitStatementsInitial is called when production StatementsInitial is exited.
 func (s *BaseCodeCalcParserListener) ExitStatementsInitial(ctx *StatementsInitialContext) {}
 
+// EnterPassThroughStatement is called when production PassThroughStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterPassThroughStatement(ctx *PassThroughStatementContext) {}
+
+// ExitPassThroughStatement is called when production PassThroughStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitPassThroughStatement(ctx *PassThroughStatementContext) {}
+
+// EnterBreakStatement is called when production BreakStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterBreakStatement(ctx *BreakStatementContext) {}
+
+// ExitBreakStatement is called when production BreakStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitBreakStatement(ctx *BreakStatementContext) {}
+
+// EnterContinueStatement is called when production ContinueStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterContinueStatement(ctx *ContinueStatementContext) {}
+
+// ExitContinueStatement is called when production ContinueStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitContinueStatement(ctx *ContinueStatementContext) {}
+
 // EnterAssignStatement is called when production AssignStatement is entered.
 func (s *BaseCodeCalcParserListener) EnterAssignStatement(ctx *AssignStatementContext) {}
 
@@ -49,6 +67,30 @@ func (s *BaseCodeCalcParserListener) EnterExpressionStatement(ctx *ExpressionSta
 
 // ExitExpressionStatement is called when production ExpressionStatement is exited.
 func (s *BaseCodeCalcParserListener) ExitExpressionStatement(ctx *ExpressionStatementContext) {}
+
+// EnterWhileStatement is called when production WhileStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterWhileStatement(ctx *WhileStatementContext) {}
+
+// ExitWhileStatement is called when production WhileStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitWhileStatement(ctx *WhileStatementContext) {}
+
+// EnterIfStatement is called when production IfStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterIfStatement(ctx *IfStatementContext) {}
+
+// ExitIfStatement is called when production IfStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitIfStatement(ctx *IfStatementContext) {}
+
+// EnterIfElseIfStatement is called when production IfElseIfStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterIfElseIfStatement(ctx *IfElseIfStatementContext) {}
+
+// ExitIfElseIfStatement is called when production IfElseIfStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitIfElseIfStatement(ctx *IfElseIfStatementContext) {}
+
+// EnterIfElseStatement is called when production IfElseStatement is entered.
+func (s *BaseCodeCalcParserListener) EnterIfElseStatement(ctx *IfElseStatementContext) {}
+
+// ExitIfElseStatement is called when production IfElseStatement is exited.
+func (s *BaseCodeCalcParserListener) ExitIfElseStatement(ctx *IfElseStatementContext) {}
 
 // EnterBinaryExpression is called when production BinaryExpression is entered.
 func (s *BaseCodeCalcParserListener) EnterBinaryExpression(ctx *BinaryExpressionContext) {}
