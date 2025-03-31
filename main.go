@@ -41,11 +41,11 @@ func main() {
 		return
 	}
 
-	cmd := exec.Command(directory+"/fasm2/fasm2", os.Args[2]+".asm", os.Args[2])
+	cmd := exec.Command(directory+"/fasm/fasm", os.Args[2]+".asm", os.Args[2])
 	stdout, err := cmd.Output()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
 	fmt.Println(string(stdout))
+	if err != nil {
+		fmt.Println("Error Building Binary")
+		fmt.Println(err)
+	}
 }

@@ -89,39 +89,34 @@ exit:
   int 0x80
 
 
-routine:
-  mov rcx, 250
-
-  .repeat:
-  push rcx
+macro CallFunc funcname {
   ; Setup Call Stack Frame
   push rbp
   mov rbp, rsp
 
   ; Call Function
   push rcx
-  call printInt
+  call funcname
   add rsp, 8
 
   ; Reset Stack Frame
-  pop rbp
+  pop rbp 
+}
+
+routine:
+  mov rcx, 250
+
+  .repeat:
+  push rcx
+
+  CallFunc printInt
 
   pop rcx
   loop .repeat
  
 
   mov rcx, -1230
-  ; Setup Call Stack Frame
-  push rbp
-  mov rbp, rsp
-
-  ; Call Function
-  push rcx
-  call printInt
-  add rsp, 8
-
-  ; Reset Stack Frame
-  pop rbp
+  CallFunc printInt
 
 
   ret

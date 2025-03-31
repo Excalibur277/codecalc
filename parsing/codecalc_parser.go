@@ -32,35 +32,42 @@ var CodeCalcParserParserStaticData struct {
 func codecalcparserParserInit() {
 	staticData := &CodeCalcParserParserStaticData
 	staticData.LiteralNames = []string{
-		"", "';'", "'='", "'+'", "'-'",
+		"", "';'", "'='", "'+'", "'-'", "'*'", "'/'", "'!'", "'>'", "'<'", "'>='",
+		"'<='", "'=='", "'!='",
 	}
 	staticData.SymbolicNames = []string{
-		"", "Terminator", "ASSIGN", "OP_ADD", "OP_SUB", "Number", "Identifier",
-		"WhiteSpace", "CommentMultiLine", "CommentSingleLine",
+		"", "Terminator", "ASSIGN", "OP_ADD", "OP_SUB", "OP_MUL", "OP_DIV",
+		"OP_NOT", "OP_GRT", "OP_LST", "OP_GTE", "OP_LTE", "OP_EQU", "OP_NEQ",
+		"Number", "Identifier", "WhiteSpace", "CommentMultiLine", "CommentSingleLine",
 	}
 	staticData.RuleNames = []string{
 		"module", "statements", "statement", "expression",
 	}
 	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 9, 44, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1, 0,
-		1, 1, 1, 1, 1, 1, 5, 1, 14, 8, 1, 10, 1, 12, 1, 17, 9, 1, 1, 2, 1, 2, 1,
-		2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 27, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3,
-		1, 3, 3, 3, 34, 8, 3, 1, 3, 1, 3, 1, 3, 5, 3, 39, 8, 3, 10, 3, 12, 3, 42,
-		9, 3, 1, 3, 0, 2, 2, 6, 4, 0, 2, 4, 6, 0, 1, 1, 0, 3, 4, 44, 0, 8, 1, 0,
-		0, 0, 2, 10, 1, 0, 0, 0, 4, 26, 1, 0, 0, 0, 6, 33, 1, 0, 0, 0, 8, 9, 3,
-		2, 1, 0, 9, 1, 1, 0, 0, 0, 10, 15, 6, 1, -1, 0, 11, 12, 10, 1, 0, 0, 12,
-		14, 3, 4, 2, 0, 13, 11, 1, 0, 0, 0, 14, 17, 1, 0, 0, 0, 15, 13, 1, 0, 0,
-		0, 15, 16, 1, 0, 0, 0, 16, 3, 1, 0, 0, 0, 17, 15, 1, 0, 0, 0, 18, 19, 5,
-		6, 0, 0, 19, 20, 5, 2, 0, 0, 20, 21, 3, 6, 3, 0, 21, 22, 5, 1, 0, 0, 22,
-		27, 1, 0, 0, 0, 23, 24, 3, 6, 3, 0, 24, 25, 5, 1, 0, 0, 25, 27, 1, 0, 0,
-		0, 26, 18, 1, 0, 0, 0, 26, 23, 1, 0, 0, 0, 27, 5, 1, 0, 0, 0, 28, 29, 6,
-		3, -1, 0, 29, 34, 5, 5, 0, 0, 30, 34, 5, 6, 0, 0, 31, 32, 7, 0, 0, 0, 32,
-		34, 3, 6, 3, 2, 33, 28, 1, 0, 0, 0, 33, 30, 1, 0, 0, 0, 33, 31, 1, 0, 0,
-		0, 34, 40, 1, 0, 0, 0, 35, 36, 10, 1, 0, 0, 36, 37, 7, 0, 0, 0, 37, 39,
-		3, 6, 3, 2, 38, 35, 1, 0, 0, 0, 39, 42, 1, 0, 0, 0, 40, 38, 1, 0, 0, 0,
-		40, 41, 1, 0, 0, 0, 41, 7, 1, 0, 0, 0, 42, 40, 1, 0, 0, 0, 4, 15, 26, 33,
-		40,
+		4, 1, 18, 53, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1,
+		0, 1, 1, 1, 1, 1, 1, 5, 1, 14, 8, 1, 10, 1, 12, 1, 17, 9, 1, 1, 2, 1, 2,
+		1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 27, 8, 2, 1, 3, 1, 3, 1, 3, 1,
+		3, 1, 3, 3, 3, 34, 8, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3,
+		1, 3, 1, 3, 1, 3, 1, 3, 5, 3, 48, 8, 3, 10, 3, 12, 3, 51, 9, 3, 1, 3, 0,
+		2, 2, 6, 4, 0, 2, 4, 6, 0, 5, 2, 0, 3, 4, 7, 7, 1, 0, 5, 6, 1, 0, 3, 4,
+		1, 0, 8, 11, 1, 0, 12, 13, 56, 0, 8, 1, 0, 0, 0, 2, 10, 1, 0, 0, 0, 4,
+		26, 1, 0, 0, 0, 6, 33, 1, 0, 0, 0, 8, 9, 3, 2, 1, 0, 9, 1, 1, 0, 0, 0,
+		10, 15, 6, 1, -1, 0, 11, 12, 10, 1, 0, 0, 12, 14, 3, 4, 2, 0, 13, 11, 1,
+		0, 0, 0, 14, 17, 1, 0, 0, 0, 15, 13, 1, 0, 0, 0, 15, 16, 1, 0, 0, 0, 16,
+		3, 1, 0, 0, 0, 17, 15, 1, 0, 0, 0, 18, 19, 5, 15, 0, 0, 19, 20, 5, 2, 0,
+		0, 20, 21, 3, 6, 3, 0, 21, 22, 5, 1, 0, 0, 22, 27, 1, 0, 0, 0, 23, 24,
+		3, 6, 3, 0, 24, 25, 5, 1, 0, 0, 25, 27, 1, 0, 0, 0, 26, 18, 1, 0, 0, 0,
+		26, 23, 1, 0, 0, 0, 27, 5, 1, 0, 0, 0, 28, 29, 6, 3, -1, 0, 29, 34, 5,
+		14, 0, 0, 30, 34, 5, 15, 0, 0, 31, 32, 7, 0, 0, 0, 32, 34, 3, 6, 3, 5,
+		33, 28, 1, 0, 0, 0, 33, 30, 1, 0, 0, 0, 33, 31, 1, 0, 0, 0, 34, 49, 1,
+		0, 0, 0, 35, 36, 10, 4, 0, 0, 36, 37, 7, 1, 0, 0, 37, 48, 3, 6, 3, 5, 38,
+		39, 10, 3, 0, 0, 39, 40, 7, 2, 0, 0, 40, 48, 3, 6, 3, 4, 41, 42, 10, 2,
+		0, 0, 42, 43, 7, 3, 0, 0, 43, 48, 3, 6, 3, 3, 44, 45, 10, 1, 0, 0, 45,
+		46, 7, 4, 0, 0, 46, 48, 3, 6, 3, 2, 47, 35, 1, 0, 0, 0, 47, 38, 1, 0, 0,
+		0, 47, 41, 1, 0, 0, 0, 47, 44, 1, 0, 0, 0, 48, 51, 1, 0, 0, 0, 49, 47,
+		1, 0, 0, 0, 49, 50, 1, 0, 0, 0, 50, 7, 1, 0, 0, 0, 51, 49, 1, 0, 0, 0,
+		5, 15, 26, 33, 47, 49,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -103,11 +110,20 @@ const (
 	CodeCalcParserASSIGN            = 2
 	CodeCalcParserOP_ADD            = 3
 	CodeCalcParserOP_SUB            = 4
-	CodeCalcParserNumber            = 5
-	CodeCalcParserIdentifier        = 6
-	CodeCalcParserWhiteSpace        = 7
-	CodeCalcParserCommentMultiLine  = 8
-	CodeCalcParserCommentSingleLine = 9
+	CodeCalcParserOP_MUL            = 5
+	CodeCalcParserOP_DIV            = 6
+	CodeCalcParserOP_NOT            = 7
+	CodeCalcParserOP_GRT            = 8
+	CodeCalcParserOP_LST            = 9
+	CodeCalcParserOP_GTE            = 10
+	CodeCalcParserOP_LTE            = 11
+	CodeCalcParserOP_EQU            = 12
+	CodeCalcParserOP_NEQ            = 13
+	CodeCalcParserNumber            = 14
+	CodeCalcParserIdentifier        = 15
+	CodeCalcParserWhiteSpace        = 16
+	CodeCalcParserCommentMultiLine  = 17
+	CodeCalcParserCommentSingleLine = 18
 )
 
 // CodeCalcParser rules.
@@ -855,12 +871,44 @@ func (s *BinaryExpressionContext) Expression(i int) IExpressionContext {
 	return t.(IExpressionContext)
 }
 
+func (s *BinaryExpressionContext) OP_MUL() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_MUL, 0)
+}
+
+func (s *BinaryExpressionContext) OP_DIV() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_DIV, 0)
+}
+
 func (s *BinaryExpressionContext) OP_ADD() antlr.TerminalNode {
 	return s.GetToken(CodeCalcParserOP_ADD, 0)
 }
 
 func (s *BinaryExpressionContext) OP_SUB() antlr.TerminalNode {
 	return s.GetToken(CodeCalcParserOP_SUB, 0)
+}
+
+func (s *BinaryExpressionContext) OP_GRT() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_GRT, 0)
+}
+
+func (s *BinaryExpressionContext) OP_LST() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_LST, 0)
+}
+
+func (s *BinaryExpressionContext) OP_GTE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_GTE, 0)
+}
+
+func (s *BinaryExpressionContext) OP_LTE() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_LTE, 0)
+}
+
+func (s *BinaryExpressionContext) OP_EQU() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_EQU, 0)
+}
+
+func (s *BinaryExpressionContext) OP_NEQ() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_NEQ, 0)
 }
 
 func (s *BinaryExpressionContext) EnterRule(listener antlr.ParseTreeListener) {
@@ -971,6 +1019,10 @@ func (s *UnaryExpressionContext) Expression() IExpressionContext {
 	}
 
 	return t.(IExpressionContext)
+}
+
+func (s *UnaryExpressionContext) OP_NOT() antlr.TerminalNode {
+	return s.GetToken(CodeCalcParserOP_NOT, 0)
 }
 
 func (s *UnaryExpressionContext) OP_ADD() antlr.TerminalNode {
@@ -1110,7 +1162,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 			}
 		}
 
-	case CodeCalcParserOP_ADD, CodeCalcParserOP_SUB:
+	case CodeCalcParserOP_ADD, CodeCalcParserOP_SUB, CodeCalcParserOP_NOT:
 		localctx = NewUnaryExpressionContext(p, localctx)
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
@@ -1123,7 +1175,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 
 			_la = p.GetTokenStream().LA(1)
 
-			if !(_la == CodeCalcParserOP_ADD || _la == CodeCalcParserOP_SUB) {
+			if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&152) != 0) {
 				var _ri = p.GetErrorHandler().RecoverInline(p)
 
 				localctx.(*UnaryExpressionContext).op = _ri
@@ -1134,7 +1186,7 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 		}
 		{
 			p.SetState(32)
-			p.expression(2)
+			p.expression(5)
 		}
 
 	default:
@@ -1142,12 +1194,12 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 		goto errorExit
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(40)
+	p.SetState(49)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
-	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 3, p.GetParserRuleContext())
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 4, p.GetParserRuleContext())
 	if p.HasError() {
 		goto errorExit
 	}
@@ -1157,44 +1209,152 @@ func (p *CodeCalcParser) expression(_p int) (localctx IExpressionContext) {
 				p.TriggerExitRuleEvent()
 			}
 			_prevctx = localctx
-			localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
-			p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
-			p.SetState(35)
-
-			if !(p.Precpred(p.GetParserRuleContext(), 1)) {
-				p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 1)", ""))
+			p.SetState(47)
+			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
 				goto errorExit
 			}
-			{
-				p.SetState(36)
 
-				var _lt = p.GetTokenStream().LT(1)
+			switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+			case 1:
+				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
+				p.SetState(35)
 
-				localctx.(*BinaryExpressionContext).op = _lt
-
-				_la = p.GetTokenStream().LA(1)
-
-				if !(_la == CodeCalcParserOP_ADD || _la == CodeCalcParserOP_SUB) {
-					var _ri = p.GetErrorHandler().RecoverInline(p)
-
-					localctx.(*BinaryExpressionContext).op = _ri
-				} else {
-					p.GetErrorHandler().ReportMatch(p)
-					p.Consume()
+				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+					goto errorExit
 				}
-			}
-			{
-				p.SetState(37)
-				p.expression(2)
+				{
+					p.SetState(36)
+
+					var _lt = p.GetTokenStream().LT(1)
+
+					localctx.(*BinaryExpressionContext).op = _lt
+
+					_la = p.GetTokenStream().LA(1)
+
+					if !(_la == CodeCalcParserOP_MUL || _la == CodeCalcParserOP_DIV) {
+						var _ri = p.GetErrorHandler().RecoverInline(p)
+
+						localctx.(*BinaryExpressionContext).op = _ri
+					} else {
+						p.GetErrorHandler().ReportMatch(p)
+						p.Consume()
+					}
+				}
+				{
+					p.SetState(37)
+					p.expression(5)
+				}
+
+			case 2:
+				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
+				p.SetState(38)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					goto errorExit
+				}
+				{
+					p.SetState(39)
+
+					var _lt = p.GetTokenStream().LT(1)
+
+					localctx.(*BinaryExpressionContext).op = _lt
+
+					_la = p.GetTokenStream().LA(1)
+
+					if !(_la == CodeCalcParserOP_ADD || _la == CodeCalcParserOP_SUB) {
+						var _ri = p.GetErrorHandler().RecoverInline(p)
+
+						localctx.(*BinaryExpressionContext).op = _ri
+					} else {
+						p.GetErrorHandler().ReportMatch(p)
+						p.Consume()
+					}
+				}
+				{
+					p.SetState(40)
+					p.expression(4)
+				}
+
+			case 3:
+				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
+				p.SetState(41)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 2)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
+					goto errorExit
+				}
+				{
+					p.SetState(42)
+
+					var _lt = p.GetTokenStream().LT(1)
+
+					localctx.(*BinaryExpressionContext).op = _lt
+
+					_la = p.GetTokenStream().LA(1)
+
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&3840) != 0) {
+						var _ri = p.GetErrorHandler().RecoverInline(p)
+
+						localctx.(*BinaryExpressionContext).op = _ri
+					} else {
+						p.GetErrorHandler().ReportMatch(p)
+						p.Consume()
+					}
+				}
+				{
+					p.SetState(43)
+					p.expression(3)
+				}
+
+			case 4:
+				localctx = NewBinaryExpressionContext(p, NewExpressionContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, CodeCalcParserRULE_expression)
+				p.SetState(44)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 1)) {
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 1)", ""))
+					goto errorExit
+				}
+				{
+					p.SetState(45)
+
+					var _lt = p.GetTokenStream().LT(1)
+
+					localctx.(*BinaryExpressionContext).op = _lt
+
+					_la = p.GetTokenStream().LA(1)
+
+					if !(_la == CodeCalcParserOP_EQU || _la == CodeCalcParserOP_NEQ) {
+						var _ri = p.GetErrorHandler().RecoverInline(p)
+
+						localctx.(*BinaryExpressionContext).op = _ri
+					} else {
+						p.GetErrorHandler().ReportMatch(p)
+						p.Consume()
+					}
+				}
+				{
+					p.SetState(46)
+					p.expression(2)
+				}
+
+			case antlr.ATNInvalidAltNumber:
+				goto errorExit
 			}
 
 		}
-		p.SetState(42)
+		p.SetState(51)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 3, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 4, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
@@ -1247,6 +1407,15 @@ func (p *CodeCalcParser) Statements_Sempred(localctx antlr.RuleContext, predInde
 func (p *CodeCalcParser) Expression_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 1:
+		return p.Precpred(p.GetParserRuleContext(), 4)
+
+	case 2:
+		return p.Precpred(p.GetParserRuleContext(), 3)
+
+	case 3:
+		return p.Precpred(p.GetParserRuleContext(), 2)
+
+	case 4:
 		return p.Precpred(p.GetParserRuleContext(), 1)
 
 	default:

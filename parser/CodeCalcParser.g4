@@ -21,8 +21,12 @@ statement
     ;
 
 expression
-    : number = Number                              # LiteralExpression
-    | identifier = Identifier                      # IdentifierExpression
-    | op = (OP_ADD | OP_SUB) expression            # UnaryExpression
-    | expression op = (OP_ADD | OP_SUB) expression # BinaryExpression
+    : L_BRACE expression R_BRACE                                     # BraceExpression
+    | number = Number                                                # LiteralExpression
+    | identifier = Identifier                                        # IdentifierExpression
+    | op = (OP_NOT | OP_ADD | OP_SUB) expression                     # UnaryExpression
+    | expression op = (OP_EQU | OP_NEQ) expression                   # BinaryExpression
+    | expression op = (OP_GRT | OP_LST | OP_GTE | OP_LTE) expression # BinaryExpression
+    | expression op = (OP_MUL | OP_DIV) expression                   # BinaryExpression
+    | expression op = (OP_ADD | OP_SUB) expression                   # BinaryExpression
     ;

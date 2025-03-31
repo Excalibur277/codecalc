@@ -4,14 +4,26 @@
 
 lexer grammar CodeCalcLexer;
 
-Terminator: ';';
+Terminator : ';';
+L_BRACE    : '(';
+R_BRACE    : ')';
 
 ASSIGN: '=';
 
 OP_ADD : '+';
 OP_SUB : '-';
+OP_MUL : '*';
+OP_DIV : '/';
+OP_NOT : '!';
 
-Number     : [1-9][0-9]*;
+OP_GRT : '>';
+OP_LST : '<';
+OP_GTE : '>=';
+OP_LTE : '<=';
+OP_EQU : '==';
+OP_NEQ : '!=';
+
+Number     : [0-9][0-9]*;
 Identifier : [\p{L}_] [\p{L}\p{N}_]*;
 
 // Parse out
