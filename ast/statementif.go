@@ -32,13 +32,12 @@ func (s *IfStatement) Generate(ctx *context) string {
 
 	fasm := s.expression.Generate(ctx)
 
-	labelCount := ctx.addScope(false)
+	scope := ctx.addScope(false)
 
 	fasm += "  test rax,rax\n"
-	fasm += fmt.Sprintf("  jz .else%d\n", labelCount)
+	fasm += fmt.Sprintf("  jz .else%d\n", scope.labelCount)
 
-	fasm += "  push rbp\n"
-	fasm += "  mov rbp, rsp\n"
+	fasm += scope.reserveScopeMemory()
 
 	for _, statement := range s.statements {
 		fasm += statement.Generate(ctx)
@@ -47,16 +46,15 @@ func (s *IfStatement) Generate(ctx *context) string {
 	assigned := ctx.popScope()
 
 	fasm += fmt.Sprintf("  add rsp, %d*8\n", assigned)
-	fasm += "  mov rsp, rbp\n"
-	fasm += "  pop rbp\n"
-	fasm += fmt.Sprintf("  jmp .endif%d\n", labelCount)
-	fasm += fmt.Sprintf(".else%d:\n", labelCount)
+	fasm += scope.releaseScopeMemory()
+	fasm += fmt.Sprintf("  jmp .endif%d\n", scope.labelCount)
+	fasm += fmt.Sprintf(".else%d:\n", scope.labelCount)
 
 	if s.elseStatement != nil {
 		fasm += s.elseStatement.Generate(ctx)
 	}
 
-	fasm += fmt.Sprintf(".endif%d:\n", labelCount)
+	fasm += fmt.Sprintf(".endif%d:\n", scope.labelCount)
 
 	return fasm
 }
@@ -75,18 +73,16 @@ func (s *ElseStatement) String() string {
 }
 
 func (s *ElseStatement) Generate(ctx *context) string {
-	fasm := "  push rbp\n"
-	fasm += "  mov rbp, rsp\n"
 
-	ctx.addScope(false)
+	scope := ctx.addScope(false)
+	fasm := scope.reserveScopeMemory()
 
 	for _, statement := range s.statements {
 		fasm += statement.Generate(ctx)
 	}
 
 	ctx.popScope()
-	fasm += "  mov rsp, rbp\n"
-	fasm += "  pop rbp\n"
+	fasm += scope.releaseScopeMemory()
 
 	return fasm
 }

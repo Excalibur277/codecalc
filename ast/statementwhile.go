@@ -2,7 +2,6 @@ package ast
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -19,8 +18,13 @@ func (s *BreakStatement) String() string {
 }
 
 func (s *BreakStatement) Generate(ctx *context) string {
-	if labelCount, offset, ok := ctx.currentLoop(); ok {
-		return fmt.Sprintf("  add rbp, %s\n  jmp .breakwhile%d\n", strconv.FormatInt((offset)*8, 10), labelCount)
+	if scope, ok := ctx.currentLoop(); ok {
+		fasm := ""
+		for _, s := range ctx.scopesInScope(scope) {
+			fasm += s.releaseScopeMemory()
+		}
+		fasm += fmt.Sprintf("  jmp .breakwhile%d\n", scope.labelCount)
+		return fasm
 	} else {
 		panic("Cannot 'break' outside of a while statement")
 	}
@@ -39,8 +43,13 @@ func (s *ContinueStatement) String() string {
 }
 
 func (s *ContinueStatement) Generate(ctx *context) string {
-	if labelCount, offset, ok := ctx.currentLoop(); ok {
-		return fmt.Sprintf("  add rbp, %s\n  jmp .continuewhile%d\n", strconv.FormatInt((offset)*8, 10), labelCount)
+	if scope, ok := ctx.currentLoop(); ok {
+		fasm := ""
+		for _, s := range ctx.scopesInScope(scope) {
+			fasm += s.releaseScopeMemory()
+		}
+		fasm += fmt.Sprintf("  jmp .continuewhile%d\n", scope.labelCount)
+		return fasm
 	} else {
 		panic("Cannot 'continue' outside of a while statement")
 	}
@@ -63,28 +72,25 @@ func (s *WhileStatement) String() string {
 func (s *WhileStatement) Generate(ctx *context) string {
 	exp := s.expression.Generate(ctx)
 
-	labelCount := ctx.addScope(true)
-	fasm := fmt.Sprintf(".checkwhile%d:\n", labelCount)
+	scope := ctx.addScope(true)
+	fasm := fmt.Sprintf(".checkwhile%d:\n", scope.labelCount)
 	fasm += exp
 	fasm += "  test rax,rax\n"
-	fasm += fmt.Sprintf("  jz .finishwhile%d\n", labelCount)
+	fasm += fmt.Sprintf("  jz .finishwhile%d\n", scope.labelCount)
 
-	fasm += "  push rbp\n"
-	fasm += "  mov rbp, rsp\n"
+	fasm += scope.reserveScopeMemory()
 
 	for _, statement := range s.statements {
 		fasm += statement.Generate(ctx)
 	}
 
 	ctx.popScope()
-	fasm += fmt.Sprintf(".continuewhile%d:\n", labelCount)
-	fasm += "  mov rsp, rbp\n"
-	fasm += "  pop rbp\n"
-	fasm += fmt.Sprintf("  jmp .checkwhile%d\n", labelCount)
-	fasm += fmt.Sprintf(".breakwhile%d:\n", labelCount)
-	fasm += "  mov rsp, rbp\n"
-	fasm += "  pop rbp\n"
-	fasm += fmt.Sprintf(".finishwhile%d:\n", labelCount)
+	fasm += fmt.Sprintf(".continuewhile%d:\n", scope.labelCount)
+	fasm += scope.releaseScopeMemory()
+	fasm += fmt.Sprintf("  jmp .checkwhile%d\n", scope.labelCount)
+	fasm += fmt.Sprintf(".breakwhile%d:\n", scope.labelCount)
+	fasm += scope.releaseScopeMemory()
+	fasm += fmt.Sprintf(".finishwhile%d:\n", scope.labelCount)
 
 	return fasm
 }

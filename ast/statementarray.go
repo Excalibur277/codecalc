@@ -2,6 +2,7 @@ package ast
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/antlr4-go/antlr/v4"
 )
@@ -45,7 +46,21 @@ func (s *ArrayStatement) Generate(ctx *context) string {
 	fasm += "  pop r8\n"        // Get length
 	fasm += "  mov [rax], r8\n" // Set length in array values
 	fasm += "  push rax\n"
-	// TODO - deallocate array
+	return fasm
+}
+
+func releaseArray(index int64) string {
+	addr := "rbp-" + strconv.FormatInt((index)*8, 10)
+	fasm := ""
+	// Arguments rdi, rsi
+	fasm += "  mov rdi, [" + addr + "]\n"
+	fasm += "  mov rsi, [rdi]\n"
+	fasm += "  inc rsi\n"
+	fasm += "  imul rsi, 8\n"
+
+	// Deallocate memory
+	fasm += "  mov rax, 11\n"
+	fasm += "  syscall\n"
 	return fasm
 }
 

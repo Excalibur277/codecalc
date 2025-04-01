@@ -31,15 +31,25 @@ type context struct {
 	labelCounter uint64
 }
 
-func (ctx *context) currentLoop() (labelCount uint64, offset int64, ok bool) {
+func (ctx *context) currentLoop() (scope *scope, ok bool) {
 	for i := len(ctx.scopes) - 1; i >= 0; i-- {
 		if ctx.scopes[i].loop {
-			return ctx.scopes[i].labelCount, offset, true
-		} else {
-			offset += ctx.scopes[i].stackOffset + 1
+			return ctx.scopes[i], true
 		}
 	}
-	return 0, offset, false
+	return nil, false
+}
+
+func (ctx *context) scopesInScope(s *scope) []*scope {
+	scopes := []*scope{}
+	for i := len(ctx.scopes) - 1; i >= 0; i-- {
+		if ctx.scopes[i] == s {
+			return scopes
+		} else {
+			scopes = append(scopes, ctx.scopes[i])
+		}
+	}
+	return []*scope{}
 }
 
 func (ctx *context) currentScope() *scope {
@@ -74,10 +84,10 @@ func (ctx *context) addVar(identifier string, dataType dataType) {
 	scope.variables[identifier] = variable{scope.stackOffset, dataType}
 }
 
-func (ctx *context) addScope(loop bool) uint64 {
+func (ctx *context) addScope(loop bool) *scope {
 	ctx.labelCounter++
 	ctx.scopes = append(ctx.scopes, &scope{ctx.labelCounter, 0, map[string]variable{}, loop})
-	return ctx.labelCounter
+	return ctx.scopes[len(ctx.scopes)-1]
 }
 
 func (ctx *context) popScope() int64 {
@@ -102,6 +112,25 @@ type scope struct {
 	stackOffset int64
 	variables   map[string]variable
 	loop        bool
+}
+
+func (s *scope) reserveScopeMemory() string {
+	fasm := ""
+	fasm += "  push rbp\n"
+	fasm += "  mov rbp, rsp\n"
+	return fasm
+}
+
+func (s *scope) releaseScopeMemory() string {
+	fasm := ""
+	for _, v := range s.variables {
+		if v.dataType == Array {
+			fasm += releaseArray(v.index)
+		}
+	}
+	fasm += "  mov rsp, rbp\n"
+	fasm += "  pop rbp\n"
+	return fasm
 }
 
 type Module interface {
@@ -267,15 +296,14 @@ boundspanic:
   syscall
 
 routine:
-  push rbp
-  mov rbp, rsp
 `
-	ctx := &context{[]*scope{{0, 0, map[string]variable{}, false}}, 0}
+	ctx := &context{[]*scope{}, 0}
+	scope := ctx.addScope(false)
+	fasm += scope.reserveScopeMemory()
 	for _, s := range m.statements {
 		fasm += s.Generate(ctx)
 	}
-	fasm += "  mov rsp, rbp\n"
-	fasm += "  pop rbp\n"
+	fasm += scope.releaseScopeMemory()
 	fasm += "  ret\n"
 	return fasm
 }
