@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 	"runtime"
 	"strings"
 
@@ -91,7 +92,11 @@ func main() {
 	}
 
 	if *run {
-		cmd := exec.Command(args[1])
+		filename := args[1]
+		if len(filepath.SplitList(filename)) == 1 {
+			filename = "./" + filepath.SplitList(filename)[0]
+		}
+		cmd := exec.Command(filename)
 		cmd.Stderr = os.Stderr
 		cmd.Stdout = os.Stdout
 		err := cmd.Run()

@@ -1,6 +1,6 @@
 # Code Calc
 
-CodeCalc is a simple signed 64-bit integer based language for linux x86-64 targets. It ignores whitespace and terminates lines with semi-colons (;).
+CodeCalc is a simple signed 64-bit integer based language for linux x86-64 targets. It ignores whitespace and terminates lines with semi-colons (;). The language also contains arrays, but not as first class entities.
 
 ## Comments
 
@@ -38,7 +38,7 @@ Not evaluates to 1 if the value is 0 and 0 otherwise.
 
 ## Statements
 
-There are 4 top level statements:
+There are 5 top level statements:
 
 Statements can include sub codeblocks. Variables assigned for the first time in the code blocks will not exist outside of it, however the value of variables reassigned within them remain.
 
@@ -50,12 +50,28 @@ An expression terminated by a semi-colon. This will be evaluated into a single n
 1 + 1; # Evaluates and prints 2 to the stdout
 ```
 
+### Array Declaration Statement
+
+Arrays can be dynamically allocated to an identifier. They will be deallocated once the scope ends.
+
+Arrays are not first class entities and cannot be passed around, only indexed and assigned to.
+
+Arrays are 0 indexed, and are bounds checked in runtime, so cannot be used as a point equivilent (the language does not have pointers).
+
+Arrays are zeroed out initially.
+
+```
+array myArray[5 + 12 * n];
+a = myArray[8];
+```
+
 ### Assign Statement
 
 Variable identifiers must start with a letter or underscore and can be followed by any number of letter, underscores and numbers as defined by the Unicode standard.
 
 ```
 myA = 5 + 2; # Sets myA to 7
+myArray[0] = 5 + 2; # Sets the first value of myArray to 7
 ```
 
 Variables can be reassigned any number of times.
