@@ -2,6 +2,16 @@
 
 CodeCalc is a simple signed 64-bit integer based language for linux x86-64 targets. It ignores whitespace and terminates lines with semi-colons (;). The language also contains arrays, but not as first class entities.
 
+## Quickstart
+
+To compile and run a .calc file:
+
+```
+./codecalc -run [pathto.calc] [output_binary]
+i.e.
+./codecalc -run ./speedtests/speed.calc ./speed
+```
+
 ## Comments
 
 \# A hash starts a line comment that continues until a newline
@@ -177,9 +187,11 @@ To run the binary run:
 
 ```
 
-You can view the produced fasm by adding the flag -fasm=[outputfasmfilename]
+You can view the produced fasm code by adding the flag -fasm=[outputfasmfilename]
 
 Additional debug info can be viewed with the flag -debug
+
+Additionally the binary can be immediatly ran with the flag -run
 
 ### Parser
 
